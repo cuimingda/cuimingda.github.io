@@ -71,6 +71,54 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-checking-if-internet-is-blocked-with-curl" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/05/23/checking-if-internet-is-blocked-with-curl/" class="article-date">
+  <time class="dt-published" datetime="2022-05-23T22:00:55.000Z" itemprop="datePublished">2022-05-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/05/23/checking-if-internet-is-blocked-with-curl/">基于curl判断当前网络是否处于封锁状态</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><code>curl</code>是一个超级厉害的网络工具，我们可以基于<code>curl</code>抓取远程的文件，同时我们也可以基于<code>curl</code>判断当前网络的连接情况，判断是否被封锁。</p>
+<p>具体是下面这个命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --location --head --connect-timeout 3 --verbose https://google.com</span><br></pre></td></tr></table></figure>
+
+<p><code>--location</code>可以缩写为<code>-L</code>，因为网站有跳转，可以跳转到最终的页面。<br><code>--head</code>可以缩写为大写的<code>-I</code>，只显示请求头，我们只是用来判断，显示头部信息就足够了。<br><code>--connect-timeout</code>设置了一个超时时间，如果网络被屏蔽，这个参数就发挥作用了，直接中断请求。<br><code>--verbose</code>可以显示更多的信息。</p>
+<p>最后注意这里要使用<code>https://google.com</code>，而不是<code>google.com</code>，如果是后者，实际测试超时时间会无效，一直处于连接状态。</p>
+<h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><ul>
+<li><a target="_blank" rel="noopener" href="https://linuxtect.com/how-to-set-timeout-for-curl-command/">https://linuxtect.com/how-to-set-timeout-for-curl-command/</a></li>
+<li><a target="_blank" rel="noopener" href="https://linuxhandbook.com/curl-timeout/">https://linuxhandbook.com/curl-timeout/</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mingda.dev/2022/05/23/checking-if-internet-is-blocked-with-curl/" data-id="cl3it2cw100009bncc19jflaq" data-title="基于curl判断当前网络是否处于封锁状态" class="article-share-link">Teilen</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-pushing-commit-and-tag-at-the-same-time" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/05/23/pushing-commit-and-tag-at-the-same-time/" class="article-date">
@@ -108,7 +156,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/pushing-commit-and-tag-at-the-same-time/" data-id="cl3iscs29000195or1ya8gy7l" data-title="如何在git中同时推送commit和tag？" class="article-share-link">Teilen</a>
+      <a data-url="https://mingda.dev/2022/05/23/pushing-commit-and-tag-at-the-same-time/" data-id="cl3it2cwa00029bnc1vpu4l38" data-title="如何在git中同时推送commit和tag？" class="article-share-link">Teilen</a>
       
       
       
@@ -171,7 +219,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/linting-markdown-files-with-markdownlint-cli-and-husky/" data-id="cl3iscs24000095orhqva0jbz" data-title="基于markdownlint和husky校验markdown文件" class="article-share-link">Teilen</a>
+      <a data-url="https://mingda.dev/2022/05/23/linting-markdown-files-with-markdownlint-cli-and-husky/" data-id="cl3it2cw700019bnc0w5q2xqm" data-title="基于markdownlint和husky校验markdown文件" class="article-share-link">Teilen</a>
       
       
       
@@ -218,7 +266,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/removing-passphrase-from-ssh-private-key/" data-id="cl3iscs2b000295or7n3v4wwj" data-title="如何清空ssh私钥对应的passphrase？" class="article-share-link">Teilen</a>
+      <a data-url="https://mingda.dev/2022/05/23/removing-passphrase-from-ssh-private-key/" data-id="cl3it2cwc00039bncbuaifs1z" data-title="如何清空ssh私钥对应的passphrase？" class="article-share-link">Teilen</a>
       
       
       
@@ -259,6 +307,10 @@
     <h3 class="widget-title">letzter Beitrag</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2022/05/23/checking-if-internet-is-blocked-with-curl/">基于curl判断当前网络是否处于封锁状态</a>
+          </li>
         
           <li>
             <a href="/2022/05/23/pushing-commit-and-tag-at-the-same-time/">如何在git中同时推送commit和tag？</a>
