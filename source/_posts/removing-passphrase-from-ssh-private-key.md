@@ -9,11 +9,13 @@ tags:
 其实这个passphrase是保存在私钥中的，可以通过``ssh-keygen``删除，并且不会影响到公钥。
 
 具体先执行下面命令
-```
+
+```shell
 ssh-keygen -p
 ```
 
 这时候会先选择修改哪个密钥，然后会提示输入之前的passphrase，然后输入新的就好，这里因为我们是要删除，只要连续输入两个回车，就可以清空passphrase了。
 
 #### References
-* https://www.simplified.guide/ssh/set-remove-passphrase
+
+* <https://www.simplified.guide/ssh/set-remove-passphrase>
