@@ -41,6 +41,16 @@ markdownlint -f source
 具体有哪些规则，可以直接到markdownlint的页面查询：
 <https://github.com/DavidAnson/markdownlint/blob/HEAD/doc/Rules.md>
 
+接下来需要做一些配置，比如说关闭每一行长度的限制，默认这个值是80，但我们是用来写博客，不是一行行写，而是一段段写，一行文字超过80个字符，并且成为一段话，这是很正常的情况。
+
+创建``.markdownlint.json``文件，并且增加下面的内容：
+
+```json
+{
+  "line-length": false
+}
+```
+
 #### References
 
 * <https://github.com/DavidAnson/markdownlint>
