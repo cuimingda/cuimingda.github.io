@@ -20,5 +20,6 @@ curl --location --head --connect-timeout 3 --verbose https://google.com
 最后注意这里要使用``https://google.com``，而不是``google.com``，如果是后者，实际测试超时时间会无效，一直处于连接状态。
 
 #### References
-* https://linuxtect.com/how-to-set-timeout-for-curl-command/
-* https://linuxhandbook.com/curl-timeout/
+
+* <https://linuxtect.com/how-to-set-timeout-for-curl-command/>
+* <https://linuxhandbook.com/curl-timeout/>
