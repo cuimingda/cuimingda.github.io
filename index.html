@@ -57,12 +57,12 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mingda.dev"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mingda.dev"></form>
       </div>
     </div>
   </div>
@@ -71,10 +71,64 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-setting-default-branch-name-for-git-init" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/05/24/setting-default-branch-name-for-git-init/" class="article-date">
+  <time class="dt-published" datetime="2022-05-24T13:24:41.000Z" itemprop="datePublished">2022-05-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/05/24/setting-default-branch-name-for-git-init/">setting-default-branch-name-for-git-init</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>当用<code>git init</code>初始化一个项目的时候，现在会有以下提示：</p>
+<blockquote>
+<p>hint: Using ‘master’ as the name for the initial branch. This default branch name<br>hint: is subject to change. To configure the initial branch name to use in all<br>hint: of your new repositories, which will suppress this warning, call:<br>hint:<br>hint:  git config –global init.defaultBranch name<br>hint:<br>hint: Names commonly chosen instead of ‘master’ are ‘main’, ‘trunk’ and<br>hint: ‘development’. The just-created branch can be renamed via this command:<br>hint:<br>hint:  git branch -m name</p>
+</blockquote>
+<p>这其实涉及到社区里对于master和slave的嫌弃，这个提示中已经说的很详细了，默认创建的项目分支名称还是<code>master</code>，但是我们可以用下面的方式改名：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -m main</span><br></pre></td></tr></table></figure>
+
+<p>当然更直接的，就是加一个全局设置，以后git初始化就都是新的分支名称了，这个设置功能是从2.28版本加进来的。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global init.defaultBranch main</span><br></pre></td></tr></table></figure>
+
+<p>通过<code>--list</code>参数，或者只查询这一个属性，都可以确认是不是已经设置成功</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --list</span><br><span class="line">git config init.defaultBranch</span><br></pre></td></tr></table></figure>
+
+<h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><ul>
+<li><a target="_blank" rel="noopener" href="https://git-scm.com/docs/git-config#Documentation/git-config.txt-initdefaultBranch">https://git-scm.com/docs/git-config#Documentation/git-config.txt-initdefaultBranch</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mingda.dev/2022/05/24/setting-default-branch-name-for-git-init/" data-id="cl3k7pvec000494ojcog7g1qd" data-title="setting-default-branch-name-for-git-init" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-checking-if-internet-is-blocked-with-curl" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/05/23/checking-if-internet-is-blocked-with-curl/" class="article-date">
-  <time class="dt-published" datetime="2022-05-23T22:00:55.000Z" itemprop="datePublished">2022-05-23</time>
+  <time class="dt-published" datetime="2022-05-23T14:00:55.000Z" itemprop="datePublished">2022-05-23</time>
 </a>
     
   </div>
@@ -107,7 +161,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/checking-if-internet-is-blocked-with-curl/" data-id="cl3it2cw100009bncc19jflaq" data-title="基于curl判断当前网络是否处于封锁状态" class="article-share-link">Teilen</a>
+      <a data-url="https://mingda.dev/2022/05/23/checking-if-internet-is-blocked-with-curl/" data-id="cl3k7pve2000094oj4t3ueubb" data-title="基于curl判断当前网络是否处于封锁状态" class="article-share-link">分享</a>
       
       
       
@@ -122,7 +176,7 @@
     <article id="post-pushing-commit-and-tag-at-the-same-time" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/05/23/pushing-commit-and-tag-at-the-same-time/" class="article-date">
-  <time class="dt-published" datetime="2022-05-23T21:27:50.000Z" itemprop="datePublished">2022-05-23</time>
+  <time class="dt-published" datetime="2022-05-23T13:27:50.000Z" itemprop="datePublished">2022-05-23</time>
 </a>
     
   </div>
@@ -156,7 +210,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/pushing-commit-and-tag-at-the-same-time/" data-id="cl3it2cwa00029bnc1vpu4l38" data-title="如何在git中同时推送commit和tag？" class="article-share-link">Teilen</a>
+      <a data-url="https://mingda.dev/2022/05/23/pushing-commit-and-tag-at-the-same-time/" data-id="cl3k7pvea000294oj24h1gb9n" data-title="如何在git中同时推送commit和tag？" class="article-share-link">分享</a>
       
       
       
@@ -171,7 +225,7 @@
     <article id="post-linting-markdown-files-with-markdownlint-cli-and-husky" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/05/23/linting-markdown-files-with-markdownlint-cli-and-husky/" class="article-date">
-  <time class="dt-published" datetime="2022-05-23T21:07:54.000Z" itemprop="datePublished">2022-05-23</time>
+  <time class="dt-published" datetime="2022-05-23T13:07:54.000Z" itemprop="datePublished">2022-05-23</time>
 </a>
     
   </div>
@@ -219,7 +273,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/linting-markdown-files-with-markdownlint-cli-and-husky/" data-id="cl3it2cw700019bnc0w5q2xqm" data-title="基于markdownlint和husky校验markdown文件" class="article-share-link">Teilen</a>
+      <a data-url="https://mingda.dev/2022/05/23/linting-markdown-files-with-markdownlint-cli-and-husky/" data-id="cl3k7pve8000194ojcp1m666m" data-title="基于markdownlint和husky校验markdown文件" class="article-share-link">分享</a>
       
       
       
@@ -234,7 +288,7 @@
     <article id="post-removing-passphrase-from-ssh-private-key" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/05/23/removing-passphrase-from-ssh-private-key/" class="article-date">
-  <time class="dt-published" datetime="2022-05-23T20:26:48.000Z" itemprop="datePublished">2022-05-23</time>
+  <time class="dt-published" datetime="2022-05-23T12:26:48.000Z" itemprop="datePublished">2022-05-23</time>
 </a>
     
   </div>
@@ -266,7 +320,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/removing-passphrase-from-ssh-private-key/" data-id="cl3it2cwc00039bncbuaifs1z" data-title="如何清空ssh私钥对应的passphrase？" class="article-share-link">Teilen</a>
+      <a data-url="https://mingda.dev/2022/05/23/removing-passphrase-from-ssh-private-key/" data-id="cl3k7pveb000394oj0sdb6u6r" data-title="如何清空ssh私钥对应的passphrase？" class="article-share-link">分享</a>
       
       
       
@@ -294,7 +348,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
+    <h3 class="widget-title">归档</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li></ul>
     </div>
@@ -304,9 +358,13 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
+    <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2022/05/24/setting-default-branch-name-for-git-init/">setting-default-branch-name-for-git-init</a>
+          </li>
         
           <li>
             <a href="/2022/05/23/checking-if-internet-is-blocked-with-curl/">基于curl判断当前网络是否处于封锁状态</a>
