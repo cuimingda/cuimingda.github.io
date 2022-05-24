@@ -5,16 +5,18 @@ date: 2022-05-24 21:24:41
 
 当用``git init``初始化一个项目的时候，现在会有以下提示：
 
-> hint: Using 'master' as the name for the initial branch. This default branch name
-> hint: is subject to change. To configure the initial branch name to use in all
-> hint: of your new repositories, which will suppress this warning, call:
-> hint:
-> hint:  git config --global init.defaultBranch name
-> hint:
-> hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
-> hint: 'development'. The just-created branch can be renamed via this command:
-> hint:
-> hint:  git branch -m name
+```text
+hint: Using 'master' as the name for the initial branch. This default branch name
+hint: is subject to change. To configure the initial branch name to use in all
+hint: of your new repositories, which will suppress this warning, call:
+hint:
+hint:  git config --global init.defaultBranch name
+hint:
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint:
+hint:  git branch -m name
+```
 
 这其实涉及到社区里对于master和slave的嫌弃，这个提示中已经说的很详细了，默认创建的项目分支名称还是``master``，但是我们可以用下面的方式改名：
 
