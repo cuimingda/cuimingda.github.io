@@ -4,16 +4,16 @@
   <meta charset="utf-8">
   
   
-  <title>如何在git中同时推送commit和tag？ | 开发者明达</title>
+  <title>当用户越追求操作简单，基于容器的CI管道就会越复杂 | 开发者明达</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="一直有一个困惑，就是执行git push命令的时候，只能将所有的commits推送到服务端，如果要想把tags也推送上去，需要再执行一个git push --tags命令。这样很麻烦。 发现git有一个参数--follow-tags可以解决这个困惑，带上这个参数，可以把这个commit对应的tag一起推送上去。 1git push --follow-tags  如果每一次都这样操作，其实也很麻烦，">
+  <meta name="description" content="《When the pursuit of simplicity creates complexity in container-based CI pipelines》是Gitlab在2022年5月24日一篇博客的标题，原文在这里：https:&#x2F;&#x2F;about.gitlab.com&#x2F;blog&#x2F;2022&#x2F;05&#x2F;24&#x2F;second-law-of-complexity-dynamics&#x2F; 用Google T">
 <meta property="og:type" content="article">
-<meta property="og:title" content="如何在git中同时推送commit和tag？">
-<meta property="og:url" content="https://mingda.dev/2022/05/23/pushing-commit-and-tag-at-the-same-time/index.html">
+<meta property="og:title" content="当用户越追求操作简单，基于容器的CI管道就会越复杂">
+<meta property="og:url" content="https://mingda.dev/2022/05/25/When-the-pursuit-of-simplicity-creates-complexity-in-container-based-CI-pipelines/index.html">
 <meta property="og:site_name" content="开发者明达">
-<meta property="og:description" content="一直有一个困惑，就是执行git push命令的时候，只能将所有的commits推送到服务端，如果要想把tags也推送上去，需要再执行一个git push --tags命令。这样很麻烦。 发现git有一个参数--follow-tags可以解决这个困惑，带上这个参数，可以把这个commit对应的tag一起推送上去。 1git push --follow-tags  如果每一次都这样操作，其实也很麻烦，">
+<meta property="og:description" content="《When the pursuit of simplicity creates complexity in container-based CI pipelines》是Gitlab在2022年5月24日一篇博客的标题，原文在这里：https:&#x2F;&#x2F;about.gitlab.com&#x2F;blog&#x2F;2022&#x2F;05&#x2F;24&#x2F;second-law-of-complexity-dynamics&#x2F; 用Google T">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-05-23T13:27:50.000Z">
+<meta property="article:published_time" content="2022-05-25T14:19:54.000Z">
 <meta property="article:modified_time" content="2022-05-25T14:47:33.502Z">
 <meta property="article:author" content="Cui Mingda">
 <meta name="twitter:card" content="summary">
@@ -73,10 +73,10 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-pushing-commit-and-tag-at-the-same-time" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-When-the-pursuit-of-simplicity-creates-complexity-in-container-based-CI-pipelines" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/05/23/pushing-commit-and-tag-at-the-same-time/" class="article-date">
-  <time class="dt-published" datetime="2022-05-23T13:27:50.000Z" itemprop="datePublished">2022-05-23</time>
+    <a href="/2022/05/25/When-the-pursuit-of-simplicity-creates-complexity-in-container-based-CI-pipelines/" class="article-date">
+  <time class="dt-published" datetime="2022-05-25T14:19:54.000Z" itemprop="datePublished">2022-05-25</time>
 </a>
     
   </div>
@@ -87,7 +87,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      如何在git中同时推送commit和tag？
+      当用户越追求操作简单，基于容器的CI管道就会越复杂
     </h1>
   
 
@@ -95,22 +95,24 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>一直有一个困惑，就是执行<code>git push</code>命令的时候，只能将所有的commits推送到服务端，如果要想把tags也推送上去，需要再执行一个<code>git push --tags</code>命令。这样很麻烦。</p>
-<p>发现<code>git</code>有一个参数<code>--follow-tags</code>可以解决这个困惑，带上这个参数，可以把这个commit对应的tag一起推送上去。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push --follow-tags</span><br></pre></td></tr></table></figure>
-
-<p>如果每一次都这样操作，其实也很麻烦，毕竟这个参数很长，我们可以在全局打开这个配置开关：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global push.followTags true</span><br></pre></td></tr></table></figure>
-
-<h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><ul>
-<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/3745135/push-git-commits-tags-simultaneously">Push git commits &amp; tags simultaneously</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.bookstack.cn/read/git-tutorial/docs-tag.md">https://www.bookstack.cn/read/git-tutorial/docs-tag.md</a></li>
-</ul>
+        <p>《When the pursuit of simplicity creates complexity in container-based CI pipelines》是Gitlab在2022年5月24日一篇博客的标题，原文在这里：<a target="_blank" rel="noopener" href="https://about.gitlab.com/blog/2022/05/24/second-law-of-complexity-dynamics/">https://about.gitlab.com/blog/2022/05/24/second-law-of-complexity-dynamics/</a></p>
+<p>用Google Translate翻译，含义是：当追求简单性在基于容器的 CI 管道中产生复杂性时。</p>
+<p>另外一种翻译：当用户越追求操作简单，基于容器的CI管道就会越复杂。</p>
+<h2 id="pursuit-x2F-C2-x2F-noun-ATTEMPT"><a href="#pursuit-x2F-C2-x2F-noun-ATTEMPT" class="headerlink" title="pursuit &#x2F; C2 &#x2F; noun (ATTEMPT)"></a>pursuit &#x2F; C2 &#x2F; noun (ATTEMPT)</h2><p>the act of trying to achieve a plan, activity, or situation, usually over a long period of time<br>追求；从事；实行</p>
+<p>the pursuit of happiness<br>对幸福的追求</p>
+<p>The company is ruthless in its pursuit of profit.<br>公司为追求利润不择手段。</p>
+<p>The union is on strike in pursuit of (&#x3D; trying to achieve) a ten percent pay increase.<br>工会为了争取10%的加薪而罢工。</p>
+<h2 id="simplicity-x2F-C1-x2F-noun-EASY"><a href="#simplicity-x2F-C1-x2F-noun-EASY" class="headerlink" title="simplicity &#x2F; C1 &#x2F; noun (EASY)"></a>simplicity &#x2F; C1 &#x2F; noun (EASY)</h2><p>the fact that something is easy to understand or do<br>简单，简易</p>
+<p>The advantage of the plan is its simplicity.<br>这项计划的优点是简单易行。</p>
+<p>The test was simplicity itself (&#x3D; very easy).<br>考试非常简单。</p>
+<h2 id="complexity-x2F-C2-x2F-noun"><a href="#complexity-x2F-C2-x2F-noun" class="headerlink" title="complexity &#x2F; C2 &#x2F; noun"></a>complexity &#x2F; C2 &#x2F; noun</h2><p>the state of having many parts and being difficult to understand or find an answer to<br>错综复杂，复杂性</p>
+<p>a problem of great complexity<br>极复杂的难题</p>
+<h2 id="pipeline-x2F-noun"><a href="#pipeline-x2F-noun" class="headerlink" title="pipeline &#x2F; noun"></a>pipeline &#x2F; noun</h2><p>a very long large tube, often underground, through which liquid or gas can flow for long distances<br>（常指铺设在地下的）管道，管线</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/pushing-commit-and-tag-at-the-same-time/" data-id="cl3lpaemm0003ajowbkhl7j29" data-title="如何在git中同时推送commit和tag？" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/05/25/When-the-pursuit-of-simplicity-creates-complexity-in-container-based-CI-pipelines/" data-id="cl3lpaemb0000ajowdf45b0da" data-title="当用户越追求操作简单，基于容器的CI管道就会越复杂" class="article-share-link">分享</a>
       
       
       
@@ -120,19 +122,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2022/05/23/checking-if-internet-is-blocked-with-curl/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">前一篇</strong>
-      <div class="article-nav-title">
-        
-          基于curl判断当前网络是否处于封锁状态
-        
-      </div>
-    </a>
   
-  
-    <a href="/2022/05/23/linting-markdown-files-with-markdownlint-cli-and-husky/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2022/05/24/setting-default-branch-name-for-git-init/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">基于markdownlint和husky校验markdown文件</div>
+      <div class="article-nav-title">setting-default-branch-name-for-git-init</div>
     </a>
   
 </nav>
