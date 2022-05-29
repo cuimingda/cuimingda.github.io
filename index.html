@@ -71,6 +71,111 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-connecting-tdsql-c-mysql-from-scf-on-tencent-cloud" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/05/29/connecting-tdsql-c-mysql-from-scf-on-tencent-cloud/" class="article-date">
+  <time class="dt-published" datetime="2022-05-29T05:43:32.000Z" itemprop="datePublished">2022-05-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/05/29/connecting-tdsql-c-mysql-from-scf-on-tencent-cloud/">用腾讯云的web函数操作cynosdb数据库</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><ul>
+<li>首先要有一个cynosdb数据库，在<a target="_blank" rel="noopener" href="https://console.cloud.tencent.com/cynosdb">控制台</a>直接可以购买，我选择的是serverless版本。</li>
+<li>要有一个VPC和一个子网，这样才能用云函数访问这个数据库。</li>
+</ul>
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir myfunc</span><br><span class="line">cd myfunc</span><br><span class="line">npm init -y</span><br></pre></td></tr></table></figure>
+
+<p>安装express和数据库</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install express mysql</span><br></pre></td></tr></table></figure>
+
+<h2 id="serverless-yml"><a href="#serverless-yml" class="headerlink" title="serverless.yml"></a>serverless.yml</h2><p>第一个级别是几个meta级别的属性</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">component:</span> <span class="string">scf</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">componentInstanceName</span></span><br><span class="line"><span class="attr">app:</span> <span class="string">appName</span></span><br><span class="line"><span class="attr">inputs:</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="inputs参数"><a href="#inputs参数" class="headerlink" title="inputs参数"></a>inputs参数</h3><p>肯定要把<code>.env</code>排除，<code>node_modules</code>不排除，而是改成<code>npm install --production</code>搞定。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">src:</span></span><br><span class="line">  <span class="attr">src:</span> <span class="string">./</span></span><br><span class="line">  <span class="attr">exclude:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">.env</span></span><br></pre></td></tr></table></figure>
+
+<p>type只有两个类型：web和event，我们是用来做api，这里就是web</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">type:</span> <span class="string">web</span></span><br></pre></td></tr></table></figure>
+
+<p>当类型是web的时候，可以设置<code>entryFile</code>参数，这样就不需要在代码里添加到<code>scf_bootstrap</code>文件了，会根据<code>entryFile</code>属性动态增加。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">entryFile:</span> <span class="string">app.js</span></span><br></pre></td></tr></table></figure>
+
+<p>Web函数只在广州、上海和北京的特定区才有，所以要指定区域</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">region:</span> <span class="string">ap-guangzhou</span></span><br></pre></td></tr></table></figure>
+
+<p>运行环境只有几个特定的环境</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">runtime:</span> <span class="string">Nodejs16.13</span></span><br></pre></td></tr></table></figure>
+
+<p>在超时这个事情上，我设置了三个级别，连接数据库最多1秒，初始化3秒，运行20秒。实际上这些也太高了。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">timeout:</span> <span class="number">20</span></span><br><span class="line"><span class="attr">initTimeout:</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<p>因为将<code>.env</code>排除了，所以在<code>app.js</code>中是无法读取到<code>.env</code>中的变量的，在这里要转换一下。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">environment:</span></span><br><span class="line">  <span class="attr">variables:</span></span><br><span class="line">    <span class="attr">DATABASE_HOST:</span> <span class="string">$&#123;env:DATABASE_HOST&#125;</span></span><br><span class="line">    <span class="attr">DATABASE_USER:</span> <span class="string">$&#123;env:DATABASE_USER&#125;</span></span><br><span class="line">    <span class="attr">DATABASE_PASSWORD:</span> <span class="string">$&#123;env:DATABASE_PASSWORD&#125;</span></span><br><span class="line">    <span class="attr">DATABASE_DATABASE:</span> <span class="string">$&#123;env:DATABASE_DATABASE&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>对于api网关，最主要的是要指定<code>serviceId</code>，否则每次<code>deploy</code>都会创建新的，但这里也遗留一个问题，就算这样写，每一次都会有一个解绑和重新绑定的过程，觉得是可以省略的。另外<code>method</code>只要一个<code>ANY</code>，就可以满足所有情况了，如果在这里指定<code>GET</code>，反而需要每个路由单独设置。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">events:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">apigw:</span></span><br><span class="line">      <span class="attr">parameters:</span></span><br><span class="line">        <span class="attr">serviceId:</span> <span class="string">service-XXXXXXXX</span></span><br><span class="line">        <span class="attr">protocols:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">https</span></span><br><span class="line">        <span class="attr">environment:</span> <span class="string">release</span></span><br><span class="line">        <span class="attr">endpoints:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">path:</span> <span class="string">/</span></span><br><span class="line">            <span class="attr">method:</span> <span class="string">ANY</span></span><br></pre></td></tr></table></figure>
+
+<p>一定要设置vpc，这样才能从云函数中访问同一个vpc的数据库。vpcId可以在<a target="_blank" rel="noopener" href="https://console.cloud.tencent.com/vpc">私有网络控制台</a>中看到，subnetId可以在<a target="_blank" rel="noopener" href="https://console.cloud.tencent.com/vpc/subnet">子网控制台</a>中看到。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">vpcConfig:</span></span><br><span class="line">  <span class="attr">vpcId:</span> <span class="string">vpc-XXXXXXXX</span></span><br><span class="line">  <span class="attr">subnetId:</span> <span class="string">subnet-XXXXXXXX</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="app-js"><a href="#app-js" class="headerlink" title="app.js"></a>app.js</h2><p>对于express来说，都是基础用法，这里最重要的点，是必须运行在9000端口号上，其他的都不行。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>()</span><br><span class="line"><span class="keyword">const</span> port = <span class="number">9000</span></span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">post</span>(<span class="string">&#x27;/notes&#x27;</span>, <span class="keyword">function</span>(<span class="params">req, res</span>) &#123;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">listen</span>(port, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Example app listening at http://localhost:<span class="subst">$&#123;port&#125;</span>`</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>如果要返回json数据，只要基于res对象操作就可以</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">res.<span class="title function_">send</span>([</span><br><span class="line"> &#123;</span><br><span class="line">  <span class="attr">foo</span>: <span class="string">&quot;bar&quot;</span></span><br><span class="line"> &#125;</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+
+<h2 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h2><p>引入</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> mysql = <span class="built_in">require</span>(<span class="string">&#x27;mysql&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>创建数据库连接，这里用到了env中定义的变量，总体的思路就是先连接，连接成功操作，然后关闭。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> connection = mysql.<span class="title function_">createConnection</span>(&#123;</span><br><span class="line">  <span class="attr">connectTimeout</span>: <span class="number">1000</span>,</span><br><span class="line">  host     : process.<span class="property">env</span>.<span class="property">DATABASE_HOST</span>,</span><br><span class="line">  user     : process.<span class="property">env</span>.<span class="property">DATABASE_USER</span>,</span><br><span class="line">  password : process.<span class="property">env</span>.<span class="property">DATABASE_PASSWORD</span>,</span><br><span class="line">  database : process.<span class="property">env</span>.<span class="property">DATABASE_DATABASE</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">connection.<span class="title function_">connect</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  connection.<span class="title function_">query</span>();</span><br><span class="line">  connection.<span class="title function_">end</span>();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>查询一个表，喜欢iu需要用query执行SELECT，results是查询结果，fields对应字段列表</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">connection.<span class="title function_">query</span>(<span class="string">&#x27;SELECT * from notes&#x27;</span>, <span class="keyword">function</span> (<span class="params">error, results, fields</span>) &#123;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>数据库连接如果失败，对应的error对象有以下关键信息：</p>
+<ul>
+<li>error.stack 错误堆栈</li>
+<li>error.code 错误代码</li>
+<li>error.errno 一个数值类的错误代码</li>
+<li>error.fatal 是否是一个致命错误</li>
+<li>error.sql 出错的时候，执行的SQL命令</li>
+<li>error.sqlMessage 错误提示</li>
+</ul>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://console.cloud.tencent.com/vpc/subnet">https://console.cloud.tencent.com/vpc/subnet</a></li>
+<li><a target="_blank" rel="noopener" href="https://console.cloud.tencent.com/vpc/vpc">https://console.cloud.tencent.com/vpc/vpc</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mingda.dev/2022/05/29/connecting-tdsql-c-mysql-from-scf-on-tencent-cloud/" data-id="cl3r0gczm0002avooc1adb12x" data-title="用腾讯云的web函数操作cynosdb数据库" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-When-the-pursuit-of-simplicity-creates-complexity-in-container-based-CI-pipelines" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/05/25/When-the-pursuit-of-simplicity-creates-complexity-in-container-based-CI-pipelines/" class="article-date">
@@ -110,7 +215,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/25/When-the-pursuit-of-simplicity-creates-complexity-in-container-based-CI-pipelines/" data-id="cl3lpaemb0000ajowdf45b0da" data-title="当用户越追求操作简单，基于容器的CI管道就会越复杂" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/05/25/When-the-pursuit-of-simplicity-creates-complexity-in-container-based-CI-pipelines/" data-id="cl3r0gczf0000avoo1hwh3y2c" data-title="当用户越追求操作简单，基于容器的CI管道就会越复杂" class="article-share-link">分享</a>
       
       
       
@@ -163,7 +268,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/24/setting-default-branch-name-for-git-init/" data-id="cl3lpaemo0005ajow1nq6aueu" data-title="setting-default-branch-name-for-git-init" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/05/24/setting-default-branch-name-for-git-init/" data-id="cl3r0gczq0006avoog8ol8anm" data-title="setting-default-branch-name-for-git-init" class="article-share-link">分享</a>
       
       
       
@@ -211,7 +316,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/checking-if-internet-is-blocked-with-curl/" data-id="cl3lpaemh0001ajow2iqo9ssf" data-title="基于curl判断当前网络是否处于封锁状态" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/05/23/checking-if-internet-is-blocked-with-curl/" data-id="cl3r0gczk0001avoo2bhd3ayy" data-title="基于curl判断当前网络是否处于封锁状态" class="article-share-link">分享</a>
       
       
       
@@ -260,7 +365,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/pushing-commit-and-tag-at-the-same-time/" data-id="cl3lpaemm0003ajowbkhl7j29" data-title="如何在git中同时推送commit和tag？" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/05/23/pushing-commit-and-tag-at-the-same-time/" data-id="cl3r0gczo0004avoo746f8jyp" data-title="如何在git中同时推送commit和tag？" class="article-share-link">分享</a>
       
       
       
@@ -323,7 +428,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/linting-markdown-files-with-markdownlint-cli-and-husky/" data-id="cl3lpaemk0002ajowgq4q533t" data-title="基于markdownlint和husky校验markdown文件" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/05/23/linting-markdown-files-with-markdownlint-cli-and-husky/" data-id="cl3r0gczn0003avoogzgd6ltq" data-title="基于markdownlint和husky校验markdown文件" class="article-share-link">分享</a>
       
       
       
@@ -370,7 +475,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/removing-passphrase-from-ssh-private-key/" data-id="cl3lpaemn0004ajow0sqxhw4k" data-title="如何清空ssh私钥对应的passphrase？" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/05/23/removing-passphrase-from-ssh-private-key/" data-id="cl3r0gczp0005avoobtis7a8f" data-title="如何清空ssh私钥对应的passphrase？" class="article-share-link">分享</a>
       
       
       
@@ -413,6 +518,10 @@
       <ul>
         
           <li>
+            <a href="/2022/05/29/connecting-tdsql-c-mysql-from-scf-on-tencent-cloud/">用腾讯云的web函数操作cynosdb数据库</a>
+          </li>
+        
+          <li>
             <a href="/2022/05/25/When-the-pursuit-of-simplicity-creates-complexity-in-container-based-CI-pipelines/">当用户越追求操作简单，基于容器的CI管道就会越复杂</a>
           </li>
         
@@ -426,10 +535,6 @@
         
           <li>
             <a href="/2022/05/23/pushing-commit-and-tag-at-the-same-time/">如何在git中同时推送commit和tag？</a>
-          </li>
-        
-          <li>
-            <a href="/2022/05/23/linting-markdown-files-with-markdownlint-cli-and-husky/">基于markdownlint和husky校验markdown文件</a>
           </li>
         
       </ul>
