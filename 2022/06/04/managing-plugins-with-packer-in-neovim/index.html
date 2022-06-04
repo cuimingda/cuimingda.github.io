@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>用packer.nvim来管理Neovim的插件 | 开发者明达</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="第一步是安装 12git clone --depth 1 https:&#x2F;&#x2F;github.com&#x2F;wbthomason&#x2F;packer.nvim \          ~&#x2F;.local&#x2F;share&#x2F;nvim&#x2F;site&#x2F;pack&#x2F;packer&#x2F;start&#x2F;packer.nvim  然后在Neovim配置目录，创建lua子目录，并且增加一个plugins.lua： 12345678910111213141">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用packer.nvim来管理Neovim的插件">
+<meta property="og:url" content="https://mingda.dev/2022/06/04/managing-plugins-with-packer-in-neovim/index.html">
+<meta property="og:site_name" content="开发者明达">
+<meta property="og:description" content="第一步是安装 12git clone --depth 1 https:&#x2F;&#x2F;github.com&#x2F;wbthomason&#x2F;packer.nvim \          ~&#x2F;.local&#x2F;share&#x2F;nvim&#x2F;site&#x2F;pack&#x2F;packer&#x2F;start&#x2F;packer.nvim  然后在Neovim配置目录，创建lua子目录，并且增加一个plugins.lua： 12345678910111213141">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-06-04T12:11:29.000Z">
+<meta property="article:modified_time" content="2022-06-04T15:52:34.488Z">
+<meta property="article:author" content="Cui Mingda">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="开发者明达" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">开发者明达</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mingda.dev"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-managing-plugins-with-packer-in-neovim" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/06/04/managing-plugins-with-packer-in-neovim/" class="article-date">
+  <time class="dt-published" datetime="2022-06-04T12:11:29.000Z" itemprop="datePublished">2022-06-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      用packer.nvim来管理Neovim的插件
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>第一步是安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone --depth 1 https://github.com/wbthomason/packer.nvim \</span><br><span class="line">          ~/.local/share/nvim/site/pack/packer/start/packer.nvim</span><br></pre></td></tr></table></figure>
+
+<p>然后在<code>Neovim</code>配置目录，创建<code>lua</code>子目录，并且增加一个<code>plugins.lua</code>：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> fn = vim.fn</span><br><span class="line"><span class="keyword">local</span> install_path = fn.stdpath(<span class="string">&#x27;data&#x27;</span>) .. <span class="string">&#x27;/site/pack/packer/start/packer.nvim&#x27;</span></span><br><span class="line"><span class="keyword">local</span> packer_compiled_path = fn.stdpath(<span class="string">&#x27;config&#x27;</span>) .. <span class="string">&#x27;/plugin/packer_compiled.lua&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> is_directory_exists = <span class="function"><span class="keyword">function</span><span class="params">(dir)</span></span></span><br><span class="line">  <span class="keyword">return</span> fn.empty(fn.glob(dir)) == <span class="number">0</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> file_exists = <span class="function"><span class="keyword">function</span><span class="params">(name)</span></span></span><br><span class="line">  <span class="keyword">local</span> file = <span class="built_in">io</span>.<span class="built_in">open</span>(name, <span class="string">&quot;r&quot;</span>)</span><br><span class="line">  <span class="keyword">if</span> file ~= <span class="literal">nil</span> <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">io</span>.<span class="built_in">close</span>(file)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> packer_startup = <span class="function"><span class="keyword">function</span><span class="params">(use)</span></span></span><br><span class="line">  use <span class="string">&quot;wbthomason/packer.nvim&quot;</span></span><br><span class="line">  use <span class="string">&#x27;neovim/nvim-lspconfig&#x27;</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> <span class="keyword">not</span> file_exists(packer_compiled_path) <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">require</span>(<span class="string">&#x27;packer&#x27;</span>).sync()</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> is_directory_exists(install_path) <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&#x27;Installing packer plugin...&#x27;</span>)</span><br><span class="line">  fn.system(&#123; <span class="string">&#x27;git&#x27;</span>, <span class="string">&#x27;clone&#x27;</span>, <span class="string">&#x27;--depth&#x27;</span>, <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;https://github.com/wbthomason/packer.nvim&#x27;</span>, install_path &#125;)</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&#x27;All done, please restart Neovim.&#x27;</span>)</span><br><span class="line">  <span class="keyword">do</span> <span class="keyword">return</span> <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> require_packer_succeed, packer = <span class="built_in">pcall</span>(<span class="built_in">require</span>, <span class="string">&quot;packer&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> require_packer_succeed <span class="keyword">then</span></span><br><span class="line">  <span class="keyword">return</span> packer.startup(packer_startup)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>最后在<code>init.lua</code>中增加引用：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">&#x27;plugins&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/wbthomason/packer.nvim">https://github.com/wbthomason/packer.nvim</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mingda.dev/2022/06/04/managing-plugins-with-packer-in-neovim/" data-id="cl4020iiw000bbbodf0mqdmg4" data-title="用packer.nvim来管理Neovim的插件" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/06/04/getting-config-path-with-lua-in-neovim/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          如何在Neovim中获取数据目录和配置目录
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/06/04/how-to-catch-require-error-in-lua/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">如何在Lua中处理require依赖不存在的问题</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/06/04/setup-neovim-for-lua-development/">在Neovim中配置Lua开发环境</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/04/convert-boolean-to-string-with-lua/">convert-boolean-to-string-with-lua</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/04/getting-config-path-with-lua-in-neovim/">如何在Neovim中获取数据目录和配置目录</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/04/managing-plugins-with-packer-in-neovim/">用packer.nvim来管理Neovim的插件</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/04/how-to-catch-require-error-in-lua/">如何在Lua中处理require依赖不存在的问题</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 Cui Mingda<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

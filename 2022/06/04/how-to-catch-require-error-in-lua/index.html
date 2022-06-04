@@ -4,16 +4,16 @@
   <meta charset="utf-8">
   
   
-  <title>如何清空ssh私钥对应的passphrase？ | 开发者明达</title>
+  <title>如何在Lua中处理require依赖不存在的问题 | 开发者明达</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="第一次创建ssh key的时候，提示可以设置一个passphrase，抱着更安全一点总是没有问题的心思，就设置了一个很长的密码短语，结果每一次ssh登录服务器，都需要输入，本来是为了方便，结果变成了每一次都很不方便。 其实这个passphrase是保存在私钥中的，可以通过ssh-keygen删除，并且不会影响到公钥。 具体先执行下面命令 1ssh-keygen -p  这时候会先选择修改哪个密钥，">
+  <meta name="description" content="如果像下面这样引入packer，并且packer还没有安装，那是会报错的 1local packer &#x3D; require(&amp;#x27;packer&amp;#x27;)  这时可以借助pcall函数，这样就可以区分是否require成功了，返回结果有两个值，第一个是Boolean，后面一个如果成功返回对象，如果失败返回nil 12345local require_packer_succeed, packe">
 <meta property="og:type" content="article">
-<meta property="og:title" content="如何清空ssh私钥对应的passphrase？">
-<meta property="og:url" content="https://mingda.dev/2022/05/23/removing-passphrase-from-ssh-private-key/index.html">
+<meta property="og:title" content="如何在Lua中处理require依赖不存在的问题">
+<meta property="og:url" content="https://mingda.dev/2022/06/04/how-to-catch-require-error-in-lua/index.html">
 <meta property="og:site_name" content="开发者明达">
-<meta property="og:description" content="第一次创建ssh key的时候，提示可以设置一个passphrase，抱着更安全一点总是没有问题的心思，就设置了一个很长的密码短语，结果每一次ssh登录服务器，都需要输入，本来是为了方便，结果变成了每一次都很不方便。 其实这个passphrase是保存在私钥中的，可以通过ssh-keygen删除，并且不会影响到公钥。 具体先执行下面命令 1ssh-keygen -p  这时候会先选择修改哪个密钥，">
+<meta property="og:description" content="如果像下面这样引入packer，并且packer还没有安装，那是会报错的 1local packer &#x3D; require(&amp;#x27;packer&amp;#x27;)  这时可以借助pcall函数，这样就可以区分是否require成功了，返回结果有两个值，第一个是Boolean，后面一个如果成功返回对象，如果失败返回nil 12345local require_packer_succeed, packe">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-05-23T12:26:48.000Z">
+<meta property="article:published_time" content="2022-06-04T12:08:55.000Z">
 <meta property="article:modified_time" content="2022-06-04T15:52:34.488Z">
 <meta property="article:author" content="Cui Mingda">
 <meta name="twitter:card" content="summary">
@@ -73,10 +73,10 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-removing-passphrase-from-ssh-private-key" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-how-to-catch-require-error-in-lua" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/05/23/removing-passphrase-from-ssh-private-key/" class="article-date">
-  <time class="dt-published" datetime="2022-05-23T12:26:48.000Z" itemprop="datePublished">2022-05-23</time>
+    <a href="/2022/06/04/how-to-catch-require-error-in-lua/" class="article-date">
+  <time class="dt-published" datetime="2022-06-04T12:08:55.000Z" itemprop="datePublished">2022-06-04</time>
 </a>
     
   </div>
@@ -87,7 +87,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      如何清空ssh私钥对应的passphrase？
+      如何在Lua中处理require依赖不存在的问题
     </h1>
   
 
@@ -95,20 +95,20 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>第一次创建ssh key的时候，提示可以设置一个passphrase，抱着更安全一点总是没有问题的心思，就设置了一个很长的密码短语，结果每一次ssh登录服务器，都需要输入，本来是为了方便，结果变成了每一次都很不方便。</p>
-<p>其实这个passphrase是保存在私钥中的，可以通过<code>ssh-keygen</code>删除，并且不会影响到公钥。</p>
-<p>具体先执行下面命令</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -p</span><br></pre></td></tr></table></figure>
+        <p>如果像下面这样引入<code>packer</code>，并且<code>packer</code>还没有安装，那是会报错的</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> packer = <span class="built_in">require</span>(<span class="string">&#x27;packer&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
-<p>这时候会先选择修改哪个密钥，然后会提示输入之前的passphrase，然后输入新的就好，这里因为我们是要删除，只要连续输入两个回车，就可以清空passphrase了。</p>
-<h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><ul>
-<li><a target="_blank" rel="noopener" href="https://www.simplified.guide/ssh/set-remove-passphrase">https://www.simplified.guide/ssh/set-remove-passphrase</a></li>
+<p>这时可以借助<code>pcall</code>函数，这样就可以区分是否<code>require</code>成功了，返回结果有两个值，第一个是<code>Boolean</code>，后面一个如果成功返回对象，如果失败返回<code>nil</code></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> require_packer_succeed, packer = <span class="built_in">pcall</span>(<span class="built_in">require</span>, <span class="string">&quot;packer&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> require_packer_succeed <span class="keyword">then</span></span><br><span class="line">  <span class="keyword">return</span> packer.startup(packer_startup)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/nanotee/nvim-lua-guide">https://github.com/nanotee/nvim-lua-guide</a></li>
 </ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/removing-passphrase-from-ssh-private-key/" data-id="cl4020iiz000ebbod51tw5kul" data-title="如何清空ssh私钥对应的passphrase？" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/how-to-catch-require-error-in-lua/" data-id="cl4020iir0006bbodh2mxbl5g" data-title="如何在Lua中处理require依赖不存在的问题" class="article-share-link">分享</a>
       
       
       
@@ -118,15 +118,20 @@
     
 <nav id="article-nav">
   
-    <a href="/2022/05/23/linting-markdown-files-with-markdownlint-cli-and-husky/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2022/06/04/managing-plugins-with-packer-in-neovim/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前一篇</strong>
       <div class="article-nav-title">
         
-          基于markdownlint和husky校验markdown文件
+          用packer.nvim来管理Neovim的插件
         
       </div>
     </a>
   
+  
+    <a href="/2022/06/04/how-to-end-script-execution-in-lua/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">如何终止Lua脚本的执行</div>
+    </a>
   
 </nav>
 

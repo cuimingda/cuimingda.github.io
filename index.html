@@ -71,10 +71,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-connecting-tdsql-c-mysql-from-scf-on-tencent-cloud" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-setup-neovim-for-lua-development" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/05/29/connecting-tdsql-c-mysql-from-scf-on-tencent-cloud/" class="article-date">
-  <time class="dt-published" datetime="2022-05-29T05:43:32.000Z" itemprop="datePublished">2022-05-29</time>
+    <a href="/2022/06/04/setup-neovim-for-lua-development/" class="article-date">
+  <time class="dt-published" datetime="2022-06-04T15:40:37.000Z" itemprop="datePublished">2022-06-04</time>
 </a>
     
   </div>
@@ -85,7 +85,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/05/29/connecting-tdsql-c-mysql-from-scf-on-tencent-cloud/">用腾讯云的web函数操作cynosdb数据库</a>
+      <a class="p-name article-title" href="/2022/06/04/setup-neovim-for-lua-development/">在Neovim中配置Lua开发环境</a>
     </h1>
   
 
@@ -93,78 +93,26 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><ul>
-<li>首先要有一个cynosdb数据库，在<a target="_blank" rel="noopener" href="https://console.cloud.tencent.com/cynosdb">控制台</a>直接可以购买，我选择的是serverless版本。</li>
-<li>要有一个VPC和一个子网，这样才能用云函数访问这个数据库。</li>
-</ul>
-<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir myfunc</span><br><span class="line">cd myfunc</span><br><span class="line">npm init -y</span><br></pre></td></tr></table></figure>
+        <p>安装<code>LSP</code>服务端：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install lua-language-server</span><br></pre></td></tr></table></figure>
 
-<p>安装express和数据库</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install express mysql</span><br></pre></td></tr></table></figure>
+<p>创建一个配置目录：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p lua/lspconfig/sumneko_lua &amp;&amp; cd $_</span><br></pre></td></tr></table></figure>
 
-<h2 id="serverless-yml"><a href="#serverless-yml" class="headerlink" title="serverless.yml"></a>serverless.yml</h2><p>第一个级别是几个meta级别的属性</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">component:</span> <span class="string">scf</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">componentInstanceName</span></span><br><span class="line"><span class="attr">app:</span> <span class="string">appName</span></span><br><span class="line"><span class="attr">inputs:</span></span><br></pre></td></tr></table></figure>
+<p>创建<code>init.lua</code>配置</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span> <span class="string">&#x27;lspconfig&#x27;</span>.sumneko_lua.setup &#123;</span><br><span class="line">  cmd = &#123; <span class="string">&quot;lua-language-server&quot;</span>, <span class="string">&quot;--locale=zh-CN&quot;</span> &#125;,</span><br><span class="line">  settings = &#123;</span><br><span class="line">    Lua = &#123;</span><br><span class="line">      <span class="built_in">format</span> = &#123;</span><br><span class="line">        defaultConfig = &#123;</span><br><span class="line">          indent_style = <span class="string">&quot;space&quot;</span>,</span><br><span class="line">          indent_size = <span class="string">&quot;2&quot;</span>,</span><br><span class="line">          tab_width = <span class="string">&quot;2&quot;</span>,</span><br><span class="line">          continuation_indent_size = <span class="string">&quot;2&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      diagnostics = &#123;</span><br><span class="line">        globals = &#123; <span class="string">&quot;vim&quot;</span> &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="inputs参数"><a href="#inputs参数" class="headerlink" title="inputs参数"></a>inputs参数</h3><p>肯定要把<code>.env</code>排除，<code>node_modules</code>不排除，而是改成<code>npm install --production</code>搞定。</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">src:</span></span><br><span class="line">  <span class="attr">src:</span> <span class="string">./</span></span><br><span class="line">  <span class="attr">exclude:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">.env</span></span><br></pre></td></tr></table></figure>
+<p>在<code>init.lua</code>增加配置文件的引用：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">&#x27;lspconfig.sumneko_lua&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
-<p>type只有两个类型：web和event，我们是用来做api，这里就是web</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">type:</span> <span class="string">web</span></span><br></pre></td></tr></table></figure>
-
-<p>当类型是web的时候，可以设置<code>entryFile</code>参数，这样就不需要在代码里添加到<code>scf_bootstrap</code>文件了，会根据<code>entryFile</code>属性动态增加。</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">entryFile:</span> <span class="string">app.js</span></span><br></pre></td></tr></table></figure>
-
-<p>Web函数只在广州、上海和北京的特定区才有，所以要指定区域</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">region:</span> <span class="string">ap-guangzhou</span></span><br></pre></td></tr></table></figure>
-
-<p>运行环境只有几个特定的环境</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">runtime:</span> <span class="string">Nodejs16.13</span></span><br></pre></td></tr></table></figure>
-
-<p>在超时这个事情上，我设置了三个级别，连接数据库最多1秒，初始化3秒，运行20秒。实际上这些也太高了。</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">timeout:</span> <span class="number">20</span></span><br><span class="line"><span class="attr">initTimeout:</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
-
-<p>因为将<code>.env</code>排除了，所以在<code>app.js</code>中是无法读取到<code>.env</code>中的变量的，在这里要转换一下。</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">environment:</span></span><br><span class="line">  <span class="attr">variables:</span></span><br><span class="line">    <span class="attr">DATABASE_HOST:</span> <span class="string">$&#123;env:DATABASE_HOST&#125;</span></span><br><span class="line">    <span class="attr">DATABASE_USER:</span> <span class="string">$&#123;env:DATABASE_USER&#125;</span></span><br><span class="line">    <span class="attr">DATABASE_PASSWORD:</span> <span class="string">$&#123;env:DATABASE_PASSWORD&#125;</span></span><br><span class="line">    <span class="attr">DATABASE_DATABASE:</span> <span class="string">$&#123;env:DATABASE_DATABASE&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>对于api网关，最主要的是要指定<code>serviceId</code>，否则每次<code>deploy</code>都会创建新的，但这里也遗留一个问题，就算这样写，每一次都会有一个解绑和重新绑定的过程，觉得是可以省略的。另外<code>method</code>只要一个<code>ANY</code>，就可以满足所有情况了，如果在这里指定<code>GET</code>，反而需要每个路由单独设置。</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">events:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">apigw:</span></span><br><span class="line">      <span class="attr">parameters:</span></span><br><span class="line">        <span class="attr">serviceId:</span> <span class="string">service-XXXXXXXX</span></span><br><span class="line">        <span class="attr">protocols:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">https</span></span><br><span class="line">        <span class="attr">environment:</span> <span class="string">release</span></span><br><span class="line">        <span class="attr">endpoints:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">path:</span> <span class="string">/</span></span><br><span class="line">            <span class="attr">method:</span> <span class="string">ANY</span></span><br></pre></td></tr></table></figure>
-
-<p>一定要设置vpc，这样才能从云函数中访问同一个vpc的数据库。vpcId可以在<a target="_blank" rel="noopener" href="https://console.cloud.tencent.com/vpc">私有网络控制台</a>中看到，subnetId可以在<a target="_blank" rel="noopener" href="https://console.cloud.tencent.com/vpc/subnet">子网控制台</a>中看到。</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">vpcConfig:</span></span><br><span class="line">  <span class="attr">vpcId:</span> <span class="string">vpc-XXXXXXXX</span></span><br><span class="line">  <span class="attr">subnetId:</span> <span class="string">subnet-XXXXXXXX</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="app-js"><a href="#app-js" class="headerlink" title="app.js"></a>app.js</h2><p>对于express来说，都是基础用法，这里最重要的点，是必须运行在9000端口号上，其他的都不行。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>()</span><br><span class="line"><span class="keyword">const</span> port = <span class="number">9000</span></span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">post</span>(<span class="string">&#x27;/notes&#x27;</span>, <span class="keyword">function</span>(<span class="params">req, res</span>) &#123;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">listen</span>(port, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Example app listening at http://localhost:<span class="subst">$&#123;port&#125;</span>`</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>如果要返回json数据，只要基于res对象操作就可以</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">res.<span class="title function_">send</span>([</span><br><span class="line"> &#123;</span><br><span class="line">  <span class="attr">foo</span>: <span class="string">&quot;bar&quot;</span></span><br><span class="line"> &#125;</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
-
-<h2 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h2><p>引入</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> mysql = <span class="built_in">require</span>(<span class="string">&#x27;mysql&#x27;</span>);</span><br></pre></td></tr></table></figure>
-
-<p>创建数据库连接，这里用到了env中定义的变量，总体的思路就是先连接，连接成功操作，然后关闭。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> connection = mysql.<span class="title function_">createConnection</span>(&#123;</span><br><span class="line">  <span class="attr">connectTimeout</span>: <span class="number">1000</span>,</span><br><span class="line">  host     : process.<span class="property">env</span>.<span class="property">DATABASE_HOST</span>,</span><br><span class="line">  user     : process.<span class="property">env</span>.<span class="property">DATABASE_USER</span>,</span><br><span class="line">  password : process.<span class="property">env</span>.<span class="property">DATABASE_PASSWORD</span>,</span><br><span class="line">  database : process.<span class="property">env</span>.<span class="property">DATABASE_DATABASE</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">connection.<span class="title function_">connect</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  connection.<span class="title function_">query</span>();</span><br><span class="line">  connection.<span class="title function_">end</span>();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>查询一个表，喜欢iu需要用query执行SELECT，results是查询结果，fields对应字段列表</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">connection.<span class="title function_">query</span>(<span class="string">&#x27;SELECT * from notes&#x27;</span>, <span class="keyword">function</span> (<span class="params">error, results, fields</span>) &#123;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>数据库连接如果失败，对应的error对象有以下关键信息：</p>
-<ul>
-<li>error.stack 错误堆栈</li>
-<li>error.code 错误代码</li>
-<li>error.errno 一个数值类的错误代码</li>
-<li>error.fatal 是否是一个致命错误</li>
-<li>error.sql 出错的时候，执行的SQL命令</li>
-<li>error.sqlMessage 错误提示</li>
-</ul>
 <h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://console.cloud.tencent.com/vpc/subnet">https://console.cloud.tencent.com/vpc/subnet</a></li>
-<li><a target="_blank" rel="noopener" href="https://console.cloud.tencent.com/vpc/vpc">https://console.cloud.tencent.com/vpc/vpc</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/sumneko/lua-language-server">https://github.com/sumneko/lua-language-server</a></li>
 </ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/29/connecting-tdsql-c-mysql-from-scf-on-tencent-cloud/" data-id="cl3r0gczm0002avooc1adb12x" data-title="用腾讯云的web函数操作cynosdb数据库" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/setup-neovim-for-lua-development/" data-id="cl4020ij0000gbbodem3rejez" data-title="在Neovim中配置Lua开发环境" class="article-share-link">分享</a>
       
       
       
@@ -176,10 +124,10 @@
 
 
   
-    <article id="post-When-the-pursuit-of-simplicity-creates-complexity-in-container-based-CI-pipelines" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-convert-boolean-to-string-with-lua" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/05/25/When-the-pursuit-of-simplicity-creates-complexity-in-container-based-CI-pipelines/" class="article-date">
-  <time class="dt-published" datetime="2022-05-25T14:19:54.000Z" itemprop="datePublished">2022-05-25</time>
+    <a href="/2022/06/04/convert-boolean-to-string-with-lua/" class="article-date">
+  <time class="dt-published" datetime="2022-06-04T12:18:33.000Z" itemprop="datePublished">2022-06-04</time>
 </a>
     
   </div>
@@ -190,7 +138,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/05/25/When-the-pursuit-of-simplicity-creates-complexity-in-container-based-CI-pipelines/">当用户越追求操作简单，基于容器的CI管道就会越复杂</a>
+      <a class="p-name article-title" href="/2022/06/04/convert-boolean-to-string-with-lua/">convert-boolean-to-string-with-lua</a>
     </h1>
   
 
@@ -198,24 +146,17 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>《When the pursuit of simplicity creates complexity in container-based CI pipelines》是Gitlab在2022年5月24日一篇博客的标题，原文在这里：<a target="_blank" rel="noopener" href="https://about.gitlab.com/blog/2022/05/24/second-law-of-complexity-dynamics/">https://about.gitlab.com/blog/2022/05/24/second-law-of-complexity-dynamics/</a></p>
-<p>用Google Translate翻译，含义是：当追求简单性在基于容器的 CI 管道中产生复杂性时。</p>
-<p>另外一种翻译：当用户越追求操作简单，基于容器的CI管道就会越复杂。</p>
-<h2 id="pursuit-x2F-C2-x2F-noun-ATTEMPT"><a href="#pursuit-x2F-C2-x2F-noun-ATTEMPT" class="headerlink" title="pursuit &#x2F; C2 &#x2F; noun (ATTEMPT)"></a>pursuit &#x2F; C2 &#x2F; noun (ATTEMPT)</h2><p>the act of trying to achieve a plan, activity, or situation, usually over a long period of time<br>追求；从事；实行</p>
-<p>the pursuit of happiness<br>对幸福的追求</p>
-<p>The company is ruthless in its pursuit of profit.<br>公司为追求利润不择手段。</p>
-<p>The union is on strike in pursuit of (&#x3D; trying to achieve) a ten percent pay increase.<br>工会为了争取10%的加薪而罢工。</p>
-<h2 id="simplicity-x2F-C1-x2F-noun-EASY"><a href="#simplicity-x2F-C1-x2F-noun-EASY" class="headerlink" title="simplicity &#x2F; C1 &#x2F; noun (EASY)"></a>simplicity &#x2F; C1 &#x2F; noun (EASY)</h2><p>the fact that something is easy to understand or do<br>简单，简易</p>
-<p>The advantage of the plan is its simplicity.<br>这项计划的优点是简单易行。</p>
-<p>The test was simplicity itself (&#x3D; very easy).<br>考试非常简单。</p>
-<h2 id="complexity-x2F-C2-x2F-noun"><a href="#complexity-x2F-C2-x2F-noun" class="headerlink" title="complexity &#x2F; C2 &#x2F; noun"></a>complexity &#x2F; C2 &#x2F; noun</h2><p>the state of having many parts and being difficult to understand or find an answer to<br>错综复杂，复杂性</p>
-<p>a problem of great complexity<br>极复杂的难题</p>
-<h2 id="pipeline-x2F-noun"><a href="#pipeline-x2F-noun" class="headerlink" title="pipeline &#x2F; noun"></a>pipeline &#x2F; noun</h2><p>a very long large tube, often underground, through which liquid or gas can flow for long distances<br>（常指铺设在地下的）管道，管线</p>
+        <p>如果直接用<code>..</code>将一个字符串和一个Boolean类型进行连接，会报错的，提示无法转换。这时候需要我们手动将Boolean类型转换成字符串，关键就是<code>tostring</code>函数：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> booleanValue = <span class="literal">true</span></span><br><span class="line"><span class="keyword">local</span> stringValue = <span class="built_in">tostring</span>(booleanValue)</span><br></pre></td></tr></table></figure>
+
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://onelinerhub.com/lua/convert-boolean-value-to-string">https://onelinerhub.com/lua/convert-boolean-value-to-string</a></li>
+</ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/25/When-the-pursuit-of-simplicity-creates-complexity-in-container-based-CI-pipelines/" data-id="cl3r0gczf0000avoo1hwh3y2c" data-title="当用户越追求操作简单，基于容器的CI管道就会越复杂" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/convert-boolean-to-string-with-lua/" data-id="cl4020iiq0004bbod2ni6b4o3" data-title="convert-boolean-to-string-with-lua" class="article-share-link">分享</a>
       
       
       
@@ -227,10 +168,10 @@
 
 
   
-    <article id="post-setting-default-branch-name-for-git-init" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-getting-config-path-with-lua-in-neovim" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/05/24/setting-default-branch-name-for-git-init/" class="article-date">
-  <time class="dt-published" datetime="2022-05-24T13:24:41.000Z" itemprop="datePublished">2022-05-24</time>
+    <a href="/2022/06/04/getting-config-path-with-lua-in-neovim/" class="article-date">
+  <time class="dt-published" datetime="2022-06-04T12:15:36.000Z" itemprop="datePublished">2022-06-04</time>
 </a>
     
   </div>
@@ -241,7 +182,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/05/24/setting-default-branch-name-for-git-init/">setting-default-branch-name-for-git-init</a>
+      <a class="p-name article-title" href="/2022/06/04/getting-config-path-with-lua-in-neovim/">如何在Neovim中获取数据目录和配置目录</a>
     </h1>
   
 
@@ -249,26 +190,20 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>当用<code>git init</code>初始化一个项目的时候，现在会有以下提示：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">hint: Using &#x27;master&#x27; as the name for the initial branch. This default branch name</span><br><span class="line">hint: is subject to change. To configure the initial branch name to use in all</span><br><span class="line">hint: of your new repositories, which will suppress this warning, call:</span><br><span class="line">hint:</span><br><span class="line">hint:  git config --global init.defaultBranch name</span><br><span class="line">hint:</span><br><span class="line">hint: Names commonly chosen instead of &#x27;master&#x27; are &#x27;main&#x27;, &#x27;trunk&#x27; and</span><br><span class="line">hint: &#x27;development&#x27;. The just-created branch can be renamed via this command:</span><br><span class="line">hint:</span><br><span class="line">hint:  git branch -m name</span><br></pre></td></tr></table></figure>
+        <p>关键就是<code>stdpath</code>函数，下面是获取数据目录，对应<code>$HOME/.local/share/nvim</code>目录，注意最后是没有<code>/</code>的，使用<code>..</code>叠加子目录或者文件名的时候，记得在前面加<code>/</code>：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(vim.fn.stdpath(<span class="string">&#x27;data&#x27;</span>))</span><br></pre></td></tr></table></figure>
 
-<p>这其实涉及到社区里对于master和slave的嫌弃，这个提示中已经说的很详细了，默认创建的项目分支名称还是<code>master</code>，但是我们可以用下面的方式改名：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -m main</span><br></pre></td></tr></table></figure>
+<p>下面的目录会输出<code>Neovim</code>配置的跟目录，就是<code>init.lua</code>所在的那级目录</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(vim.fn.stdpath(<span class="string">&#x27;config&#x27;</span>))</span><br></pre></td></tr></table></figure>
 
-<p>当然更直接的，就是加一个全局设置，以后git初始化就都是新的分支名称了，这个设置功能是从2.28版本加进来的。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global init.defaultBranch main</span><br></pre></td></tr></table></figure>
-
-<p>通过<code>--list</code>参数，或者只查询这一个属性，都可以确认是不是已经设置成功</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --list</span><br><span class="line">git config init.defaultBranch</span><br></pre></td></tr></table></figure>
-
-<h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><ul>
-<li><a target="_blank" rel="noopener" href="https://git-scm.com/docs/git-config#Documentation/git-config.txt-initdefaultBranch">https://git-scm.com/docs/git-config#Documentation/git-config.txt-initdefaultBranch</a></li>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://neovim.io/doc/user/nvim.html">https://neovim.io/doc/user/nvim.html</a></li>
 </ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/24/setting-default-branch-name-for-git-init/" data-id="cl3r0gczq0006avoog8ol8anm" data-title="setting-default-branch-name-for-git-init" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/getting-config-path-with-lua-in-neovim/" data-id="cl4020iir0005bbodd0tlas3q" data-title="如何在Neovim中获取数据目录和配置目录" class="article-share-link">分享</a>
       
       
       
@@ -280,10 +215,10 @@
 
 
   
-    <article id="post-checking-if-internet-is-blocked-with-curl" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-managing-plugins-with-packer-in-neovim" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/05/23/checking-if-internet-is-blocked-with-curl/" class="article-date">
-  <time class="dt-published" datetime="2022-05-23T14:00:55.000Z" itemprop="datePublished">2022-05-23</time>
+    <a href="/2022/06/04/managing-plugins-with-packer-in-neovim/" class="article-date">
+  <time class="dt-published" datetime="2022-06-04T12:11:29.000Z" itemprop="datePublished">2022-06-04</time>
 </a>
     
   </div>
@@ -294,7 +229,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/05/23/checking-if-internet-is-blocked-with-curl/">基于curl判断当前网络是否处于封锁状态</a>
+      <a class="p-name article-title" href="/2022/06/04/managing-plugins-with-packer-in-neovim/">用packer.nvim来管理Neovim的插件</a>
     </h1>
   
 
@@ -302,21 +237,23 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p><code>curl</code>是一个超级厉害的网络工具，我们可以基于<code>curl</code>抓取远程的文件，同时我们也可以基于<code>curl</code>判断当前网络的连接情况，判断是否被封锁。</p>
-<p>具体是下面这个命令：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --location --head --connect-timeout 3 --verbose https://google.com</span><br></pre></td></tr></table></figure>
+        <p>第一步是安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone --depth 1 https://github.com/wbthomason/packer.nvim \</span><br><span class="line">          ~/.local/share/nvim/site/pack/packer/start/packer.nvim</span><br></pre></td></tr></table></figure>
 
-<p><code>--location</code>可以缩写为<code>-L</code>，因为网站有跳转，可以跳转到最终的页面。<br><code>--head</code>可以缩写为大写的<code>-I</code>，只显示请求头，我们只是用来判断，显示头部信息就足够了。<br><code>--connect-timeout</code>设置了一个超时时间，如果网络被屏蔽，这个参数就发挥作用了，直接中断请求。<br><code>--verbose</code>可以显示更多的信息。</p>
-<p>最后注意这里要使用<code>https://google.com</code>，而不是<code>google.com</code>，如果是后者，实际测试超时时间会无效，一直处于连接状态。</p>
-<h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><ul>
-<li><a target="_blank" rel="noopener" href="https://linuxtect.com/how-to-set-timeout-for-curl-command/">https://linuxtect.com/how-to-set-timeout-for-curl-command/</a></li>
-<li><a target="_blank" rel="noopener" href="https://linuxhandbook.com/curl-timeout/">https://linuxhandbook.com/curl-timeout/</a></li>
+<p>然后在<code>Neovim</code>配置目录，创建<code>lua</code>子目录，并且增加一个<code>plugins.lua</code>：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> fn = vim.fn</span><br><span class="line"><span class="keyword">local</span> install_path = fn.stdpath(<span class="string">&#x27;data&#x27;</span>) .. <span class="string">&#x27;/site/pack/packer/start/packer.nvim&#x27;</span></span><br><span class="line"><span class="keyword">local</span> packer_compiled_path = fn.stdpath(<span class="string">&#x27;config&#x27;</span>) .. <span class="string">&#x27;/plugin/packer_compiled.lua&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> is_directory_exists = <span class="function"><span class="keyword">function</span><span class="params">(dir)</span></span></span><br><span class="line">  <span class="keyword">return</span> fn.empty(fn.glob(dir)) == <span class="number">0</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> file_exists = <span class="function"><span class="keyword">function</span><span class="params">(name)</span></span></span><br><span class="line">  <span class="keyword">local</span> file = <span class="built_in">io</span>.<span class="built_in">open</span>(name, <span class="string">&quot;r&quot;</span>)</span><br><span class="line">  <span class="keyword">if</span> file ~= <span class="literal">nil</span> <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">io</span>.<span class="built_in">close</span>(file)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> packer_startup = <span class="function"><span class="keyword">function</span><span class="params">(use)</span></span></span><br><span class="line">  use <span class="string">&quot;wbthomason/packer.nvim&quot;</span></span><br><span class="line">  use <span class="string">&#x27;neovim/nvim-lspconfig&#x27;</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> <span class="keyword">not</span> file_exists(packer_compiled_path) <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">require</span>(<span class="string">&#x27;packer&#x27;</span>).sync()</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> is_directory_exists(install_path) <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&#x27;Installing packer plugin...&#x27;</span>)</span><br><span class="line">  fn.system(&#123; <span class="string">&#x27;git&#x27;</span>, <span class="string">&#x27;clone&#x27;</span>, <span class="string">&#x27;--depth&#x27;</span>, <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;https://github.com/wbthomason/packer.nvim&#x27;</span>, install_path &#125;)</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&#x27;All done, please restart Neovim.&#x27;</span>)</span><br><span class="line">  <span class="keyword">do</span> <span class="keyword">return</span> <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> require_packer_succeed, packer = <span class="built_in">pcall</span>(<span class="built_in">require</span>, <span class="string">&quot;packer&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> require_packer_succeed <span class="keyword">then</span></span><br><span class="line">  <span class="keyword">return</span> packer.startup(packer_startup)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>最后在<code>init.lua</code>中增加引用：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">&#x27;plugins&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/wbthomason/packer.nvim">https://github.com/wbthomason/packer.nvim</a></li>
 </ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/checking-if-internet-is-blocked-with-curl/" data-id="cl3r0gczk0001avoo2bhd3ayy" data-title="基于curl判断当前网络是否处于封锁状态" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/managing-plugins-with-packer-in-neovim/" data-id="cl4020iiw000bbbodf0mqdmg4" data-title="用packer.nvim来管理Neovim的插件" class="article-share-link">分享</a>
       
       
       
@@ -328,10 +265,10 @@
 
 
   
-    <article id="post-pushing-commit-and-tag-at-the-same-time" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-how-to-catch-require-error-in-lua" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/05/23/pushing-commit-and-tag-at-the-same-time/" class="article-date">
-  <time class="dt-published" datetime="2022-05-23T13:27:50.000Z" itemprop="datePublished">2022-05-23</time>
+    <a href="/2022/06/04/how-to-catch-require-error-in-lua/" class="article-date">
+  <time class="dt-published" datetime="2022-06-04T12:08:55.000Z" itemprop="datePublished">2022-06-04</time>
 </a>
     
   </div>
@@ -342,7 +279,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/05/23/pushing-commit-and-tag-at-the-same-time/">如何在git中同时推送commit和tag？</a>
+      <a class="p-name article-title" href="/2022/06/04/how-to-catch-require-error-in-lua/">如何在Lua中处理require依赖不存在的问题</a>
     </h1>
   
 
@@ -350,22 +287,20 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>一直有一个困惑，就是执行<code>git push</code>命令的时候，只能将所有的commits推送到服务端，如果要想把tags也推送上去，需要再执行一个<code>git push --tags</code>命令。这样很麻烦。</p>
-<p>发现<code>git</code>有一个参数<code>--follow-tags</code>可以解决这个困惑，带上这个参数，可以把这个commit对应的tag一起推送上去。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push --follow-tags</span><br></pre></td></tr></table></figure>
+        <p>如果像下面这样引入<code>packer</code>，并且<code>packer</code>还没有安装，那是会报错的</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> packer = <span class="built_in">require</span>(<span class="string">&#x27;packer&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
-<p>如果每一次都这样操作，其实也很麻烦，毕竟这个参数很长，我们可以在全局打开这个配置开关：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global push.followTags true</span><br></pre></td></tr></table></figure>
+<p>这时可以借助<code>pcall</code>函数，这样就可以区分是否<code>require</code>成功了，返回结果有两个值，第一个是<code>Boolean</code>，后面一个如果成功返回对象，如果失败返回<code>nil</code></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> require_packer_succeed, packer = <span class="built_in">pcall</span>(<span class="built_in">require</span>, <span class="string">&quot;packer&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> require_packer_succeed <span class="keyword">then</span></span><br><span class="line">  <span class="keyword">return</span> packer.startup(packer_startup)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
 
-<h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><ul>
-<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/3745135/push-git-commits-tags-simultaneously">Push git commits &amp; tags simultaneously</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.bookstack.cn/read/git-tutorial/docs-tag.md">https://www.bookstack.cn/read/git-tutorial/docs-tag.md</a></li>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/nanotee/nvim-lua-guide">https://github.com/nanotee/nvim-lua-guide</a></li>
 </ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/pushing-commit-and-tag-at-the-same-time/" data-id="cl3r0gczo0004avoo746f8jyp" data-title="如何在git中同时推送commit和tag？" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/how-to-catch-require-error-in-lua/" data-id="cl4020iir0006bbodh2mxbl5g" data-title="如何在Lua中处理require依赖不存在的问题" class="article-share-link">分享</a>
       
       
       
@@ -377,10 +312,10 @@
 
 
   
-    <article id="post-linting-markdown-files-with-markdownlint-cli-and-husky" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-how-to-end-script-execution-in-lua" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/05/23/linting-markdown-files-with-markdownlint-cli-and-husky/" class="article-date">
-  <time class="dt-published" datetime="2022-05-23T13:07:54.000Z" itemprop="datePublished">2022-05-23</time>
+    <a href="/2022/06/04/how-to-end-script-execution-in-lua/" class="article-date">
+  <time class="dt-published" datetime="2022-06-04T12:08:09.000Z" itemprop="datePublished">2022-06-04</time>
 </a>
     
   </div>
@@ -391,7 +326,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/05/23/linting-markdown-files-with-markdownlint-cli-and-husky/">基于markdownlint和husky校验markdown文件</a>
+      <a class="p-name article-title" href="/2022/06/04/how-to-end-script-execution-in-lua/">如何终止Lua脚本的执行</a>
     </h1>
   
 
@@ -399,36 +334,17 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>基于Hexo来写博客，本质上就是写大量的markdown文档，那是不是有类似eslint一样的工具，也能对markdown文件进行校验呢，答案是确定的，工具的名称就是<code>markdownlint</code>。</p>
-<p>首先安装<code>markdownlint</code>的命令行工具：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install markdownlint-cli</span><br></pre></td></tr></table></figure>
+        <p>在执行<code>Lua</code>脚本的过程中，判断了一个前置条件，如果这个条件不满足，那么后续的代码就都不执行了，比如一个场景的场景就是判断<code>Neovim</code>的版本，如果不是<code>0.7.0</code>，就不执行后面的配置，提示先更新<code>Neovim</code>的版本。关键的语法就是<code>return end</code>：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> is_directory_exists(install_path) <span class="keyword">then</span></span><br><span class="line">  <span class="keyword">do</span> <span class="keyword">return</span> <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
 
-<p>然后安装<code>husky</code>：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install husky --save-dev</span><br></pre></td></tr></table></figure>
-
-<p>初始化</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm set-script prepare &quot;husky install&quot;</span><br><span class="line">npm run prepare</span><br></pre></td></tr></table></figure>
-
-<p>增加一个钩子</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npx husky add .husky/pre-commit &quot;markdownlint source&quot;</span><br><span class="line">git add .husky/pre-commit</span><br></pre></td></tr></table></figure>
-
-<p>这时候，只要我们再次提交commit，就会检查source目录中的所有<code>markdown</code>文件是不是符合要求，如果不符合要求，其实还可以用快速修理</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">markdownlint -f source</span><br></pre></td></tr></table></figure>
-
-<p>具体有哪些规则，可以直接到markdownlint的页面查询：<br><a target="_blank" rel="noopener" href="https://github.com/DavidAnson/markdownlint/blob/HEAD/doc/Rules.md">https://github.com/DavidAnson/markdownlint/blob/HEAD/doc/Rules.md</a></p>
-<p>接下来需要做一些配置，比如说关闭每一行长度的限制，默认这个值是80，但我们是用来写博客，不是一行行写，而是一段段写，一行文字超过80个字符，并且成为一段话，这是很正常的情况。</p>
-<p>创建<code>.markdownlint.json</code>文件，并且增加下面的内容：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;line-length&quot;</span><span class="punctuation">:</span> <span class="keyword">false</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/DavidAnson/markdownlint">https://github.com/DavidAnson/markdownlint</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/typicode/husky">https://github.com/typicode/husky</a></li>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/20188458/how-to-exit-a-lua-scripts-execution">https://stackoverflow.com/questions/20188458/how-to-exit-a-lua-scripts-execution</a></li>
 </ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/linting-markdown-files-with-markdownlint-cli-and-husky/" data-id="cl3r0gczn0003avoogzgd6ltq" data-title="基于markdownlint和husky校验markdown文件" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/how-to-end-script-execution-in-lua/" data-id="cl4020iis0007bbodbmuhe0ul" data-title="如何终止Lua脚本的执行" class="article-share-link">分享</a>
       
       
       
@@ -440,10 +356,10 @@
 
 
   
-    <article id="post-removing-passphrase-from-ssh-private-key" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-check-if-file-or-directory-exists-with-lua" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/05/23/removing-passphrase-from-ssh-private-key/" class="article-date">
-  <time class="dt-published" datetime="2022-05-23T12:26:48.000Z" itemprop="datePublished">2022-05-23</time>
+    <a href="/2022/06/04/check-if-file-or-directory-exists-with-lua/" class="article-date">
+  <time class="dt-published" datetime="2022-06-04T12:05:39.000Z" itemprop="datePublished">2022-06-04</time>
 </a>
     
   </div>
@@ -454,7 +370,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/05/23/removing-passphrase-from-ssh-private-key/">如何清空ssh私钥对应的passphrase？</a>
+      <a class="p-name article-title" href="/2022/06/04/check-if-file-or-directory-exists-with-lua/">如何在Lua中检测文件或者目录是否存在</a>
     </h1>
   
 
@@ -462,20 +378,159 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>第一次创建ssh key的时候，提示可以设置一个passphrase，抱着更安全一点总是没有问题的心思，就设置了一个很长的密码短语，结果每一次ssh登录服务器，都需要输入，本来是为了方便，结果变成了每一次都很不方便。</p>
-<p>其实这个passphrase是保存在私钥中的，可以通过<code>ssh-keygen</code>删除，并且不会影响到公钥。</p>
-<p>具体先执行下面命令</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -p</span><br></pre></td></tr></table></figure>
+        <p>检查目录是否存在</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> is_directory_exists = <span class="function"><span class="keyword">function</span><span class="params">(dir)</span></span></span><br><span class="line">  <span class="keyword">return</span> vim.fn.empty(vim.fn.glob(dir)) == <span class="number">0</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
 
-<p>这时候会先选择修改哪个密钥，然后会提示输入之前的passphrase，然后输入新的就好，这里因为我们是要删除，只要连续输入两个回车，就可以清空passphrase了。</p>
-<h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><ul>
-<li><a target="_blank" rel="noopener" href="https://www.simplified.guide/ssh/set-remove-passphrase">https://www.simplified.guide/ssh/set-remove-passphrase</a></li>
+<p>比如我们可以用来检测<code>packer</code>是否已经安装，如果没有安装，就用<code>git clone</code>下载安装</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> install_path = fn.stdpath(<span class="string">&#x27;data&#x27;</span>) .. <span class="string">&#x27;/site/pack/packer/start/packer.nvim&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> is_directory_exists(install_path) <span class="keyword">then</span></span><br><span class="line">  <span class="comment">-- do something</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>检查文件是否存在</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> file_exists = <span class="function"><span class="keyword">function</span><span class="params">(name)</span></span></span><br><span class="line">  <span class="keyword">local</span> file = <span class="built_in">io</span>.<span class="built_in">open</span>(name, <span class="string">&quot;r&quot;</span>)</span><br><span class="line">  <span class="keyword">if</span> file ~= <span class="literal">nil</span> <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">io</span>.<span class="built_in">close</span>(file)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>比如可以用来判断<code>packer</code>是否已经编译，如果没有编译就执行同步进行编译：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> packer_compiled_path = fn.stdpath(<span class="string">&#x27;config&#x27;</span>) .. <span class="string">&#x27;/plugin/packer_compiled.lua&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> file_exists(packer_compiled_path) <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">require</span>(<span class="string">&#x27;packer&#x27;</span>).sync()</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/1340230/check-if-directory-exists-in-lua">https://stackoverflow.com/questions/1340230/check-if-directory-exists-in-lua</a></li>
 </ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/removing-passphrase-from-ssh-private-key/" data-id="cl3r0gczp0005avoobtis7a8f" data-title="如何清空ssh私钥对应的passphrase？" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/check-if-file-or-directory-exists-with-lua/" data-id="cl4020iih0000bbod7snkcllo" data-title="如何在Lua中检测文件或者目录是否存在" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-concat-strings-in-lua" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/06/04/concat-strings-in-lua/" class="article-date">
+  <time class="dt-published" datetime="2022-06-04T08:21:07.000Z" itemprop="datePublished">2022-06-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/06/04/concat-strings-in-lua/">在Lua中将两个字符串合并为一个字符串</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>官网的例子，已经非常直接了：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Hello &quot;</span> .. <span class="string">&quot;World&quot;</span>)  <span class="comment">--&gt; Hello World</span></span><br><span class="line"><span class="built_in">print</span>(<span class="number">0</span> .. <span class="number">1</span>)               <span class="comment">--&gt; 01</span></span><br></pre></td></tr></table></figure>
+
+<p>再来一个实际例子，获取<code>packer</code>的安装地址，先确定neovim的数据目录是哪里：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">:lua <span class="built_in">print</span>(vim.fn.stdpath(<span class="string">&#x27;data&#x27;</span>))</span><br><span class="line">$HOME/.<span class="keyword">local</span>/share/nvim</span><br></pre></td></tr></table></figure>
+
+<p><code>packer</code>的安装地址</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> install_path = vim.fn.stdpath(<span class="string">&#x27;data&#x27;</span>) .. <span class="string">&#x27;/site/pack/packer/start/packer.nvim&#x27;</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mingda.dev/2022/06/04/concat-strings-in-lua/" data-id="cl4020iio0002bbod5tvggdw1" data-title="在Lua中将两个字符串合并为一个字符串" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-performing-make-and-cd-using-one-single-command" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/06/03/performing-make-and-cd-using-one-single-command/" class="article-date">
+  <time class="dt-published" datetime="2022-06-03T14:37:29.000Z" itemprop="datePublished">2022-06-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/06/03/performing-make-and-cd-using-one-single-command/">perform-make-and-cd-using-one-single-command</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mingda.dev/2022/06/03/performing-make-and-cd-using-one-single-command/" data-id="cl4020iix000cbbodaoue9vfx" data-title="perform-make-and-cd-using-one-single-command" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-how-to-lookup-value-with-date-week-ago-in-google-spreadsheets" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/06/03/how-to-lookup-value-with-date-week-ago-in-google-spreadsheets/" class="article-date">
+  <time class="dt-published" datetime="2022-06-03T04:58:11.000Z" itemprop="datePublished">2022-06-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/06/03/how-to-lookup-value-with-date-week-ago-in-google-spreadsheets/">在Google表格中查询一周以前对应日期的数据</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在Google表格中有两列数据，第一列（B）是日期，第三列（D）是体重值，现在的诉求就是在E列计算当天的体重和一周前体重的差值。</p>
+<p>获取一周以前日期对应的数值，就要利用到<code>vlookup</code>函数，比如调用方法：</p>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=<span class="built_in">vlookup</span>(<span class="symbol">B2</span>-<span class="number">7</span>, <span class="symbol">B:D</span>,<span class="number">3</span>, <span class="built_in">false</span>)</span><br></pre></td></tr></table></figure>
+
+<p><code>vlookup</code>有四个参数，第一个是要计算的值，<code>B2</code>在这里对应的是今天的日期，日期可以直接通过加减，得出一周以前的日期，<code>B:D</code>对应要查询的区域，要查询区域的第一列，对应要查询的值，<code>3</code>代表要匹配的结果，<code>false</code>在这里代表不要排序。</p>
+<p>那最后差值的计算就简单了</p>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=<span class="symbol">D2</span>-<span class="built_in">vlookup</span>(<span class="symbol">B2</span>-<span class="number">7</span>, <span class="symbol">B:D</span>,<span class="number">3</span>, <span class="built_in">false</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://support.google.com/docs/answer/3093318?hl=en">https://support.google.com/docs/answer/3093318?hl=en</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mingda.dev/2022/06/03/how-to-lookup-value-with-date-week-ago-in-google-spreadsheets/" data-id="cl4020iiu0009bbodcsc7di5b" data-title="在Google表格中查询一周以前对应日期的数据" class="article-share-link">分享</a>
       
       
       
@@ -488,6 +543,11 @@
 
   
 
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
+  </nav>
 
 </section>
         
@@ -505,7 +565,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li></ul>
     </div>
   </div>
 
@@ -518,23 +578,23 @@
       <ul>
         
           <li>
-            <a href="/2022/05/29/connecting-tdsql-c-mysql-from-scf-on-tencent-cloud/">用腾讯云的web函数操作cynosdb数据库</a>
+            <a href="/2022/06/04/setup-neovim-for-lua-development/">在Neovim中配置Lua开发环境</a>
           </li>
         
           <li>
-            <a href="/2022/05/25/When-the-pursuit-of-simplicity-creates-complexity-in-container-based-CI-pipelines/">当用户越追求操作简单，基于容器的CI管道就会越复杂</a>
+            <a href="/2022/06/04/convert-boolean-to-string-with-lua/">convert-boolean-to-string-with-lua</a>
           </li>
         
           <li>
-            <a href="/2022/05/24/setting-default-branch-name-for-git-init/">setting-default-branch-name-for-git-init</a>
+            <a href="/2022/06/04/getting-config-path-with-lua-in-neovim/">如何在Neovim中获取数据目录和配置目录</a>
           </li>
         
           <li>
-            <a href="/2022/05/23/checking-if-internet-is-blocked-with-curl/">基于curl判断当前网络是否处于封锁状态</a>
+            <a href="/2022/06/04/managing-plugins-with-packer-in-neovim/">用packer.nvim来管理Neovim的插件</a>
           </li>
         
           <li>
-            <a href="/2022/05/23/pushing-commit-and-tag-at-the-same-time/">如何在git中同时推送commit和tag？</a>
+            <a href="/2022/06/04/how-to-catch-require-error-in-lua/">如何在Lua中处理require依赖不存在的问题</a>
           </li>
         
       </ul>
