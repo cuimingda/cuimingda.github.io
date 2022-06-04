@@ -9,7 +9,6 @@ date: 2022-05-29 13:43:32
 * 要有一个VPC和一个子网，这样才能用云函数访问这个数据库。
 * 要创建一个vpc网关，但不用关联任何api，这样就有了apigw的参数
 
-
 ## 环境变量
 
 ```shell
@@ -153,7 +152,7 @@ inputs:
 
 准备``.env``文件
 
-```
+```YAML
 DATABASE_HOST=
 DATABASE_USER=
 DATABASE_PASSWORD=
@@ -165,7 +164,8 @@ APIGW_SERVICE_ID=
 ```
 
 然后创建``src``目录
-```
+
+```shell
 mkdir src && cd $_
 npm init -y
 ```
