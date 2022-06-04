@@ -12,5 +12,6 @@ date: 2022-06-03 12:44:30
 ```
 
 ## References
+
 * <https://en.wikipedia.org/wiki/N/A>
 * <https://www.get-digital-help.com/average-ignore-na/>
