@@ -7,19 +7,23 @@ date: 2022-05-29 13:43:32
 
 * 首先要有一个cynosdb数据库，在[控制台](https://console.cloud.tencent.com/cynosdb)直接可以购买，我选择的是serverless版本。
 * 要有一个VPC和一个子网，这样才能用云函数访问这个数据库。
+* 要创建一个vpc网关，但不用关联任何api，这样就有了apigw的参数
+
+
+## 环境变量
+
+```shell
+$ node -v
+v16.15.0
+
+$ npm -v
+8.8.0
+```
 
 ## 初始化
 
 ```shell
-mkdir myfunc
-cd myfunc
-npm init -y
-```
-
-安装express和数据库
-
-```shell
-npm install express mysql
+mkdir myfunc && cd $_
 ```
 
 ## serverless.yml
@@ -109,6 +113,69 @@ vpcConfig:
   subnetId: subnet-XXXXXXXX
 ```
 
+下面是一个完整版本
+
+```YAML
+component: scf
+name: thinking
+app: notes
+
+inputs:
+  src:
+    src: ./src
+    exclude:
+      - .env
+  type: web
+  entryFile: app.js
+  region: ap-guangzhou
+  runtime: Nodejs16.13
+  timeout: 20
+  initTimeout: 3
+  environment:
+    variables:
+      DATABASE_HOST: ${env:DATABASE_HOST}
+      DATABASE_USER: ${env:DATABASE_USER}
+      DATABASE_PASSWORD: ${env:DATABASE_PASSWORD}
+      DATABASE_DATABASE: ${env:DATABASE_DATABASE}
+  events:
+    - apigw:
+        parameters:
+          serviceId: ${env:APIGW_SERVICE_ID}
+          protocols:
+            - https
+          endpoints:
+            - path: /
+              method: ANY
+  vpcConfig:
+    vpcId: ${env:VPC_ID}
+    subnetId: ${env:SUBNET_ID}
+```
+
+准备``.env``文件
+
+```
+DATABASE_HOST=
+DATABASE_USER=
+DATABASE_PASSWORD=
+DATABASE_DATABASE=
+
+VPC_ID=
+SUBNET_ID=
+APIGW_SERVICE_ID=
+```
+
+然后创建``src``目录
+```
+mkdir src && cd $_
+npm init -y
+```
+
+安装express和mysql
+
+```shell
+npm install express mysql
+```
+
 ## app.js
 
 对于express来说，都是基础用法，这里最重要的点，是必须运行在9000端口号上，其他的都不行。
@@ -179,6 +246,14 @@ connection.query('SELECT * from notes', function (error, results, fields) {
 * error.fatal 是否是一个致命错误
 * error.sql 出错的时候，执行的SQL命令
 * error.sqlMessage 错误提示
+
+## 部署
+
+最后一步就是将云函数部署到服务器
+
+```shell
+sls deploy
+```
 
 ## References
 
