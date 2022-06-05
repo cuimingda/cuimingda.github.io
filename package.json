@@ -8,7 +8,8 @@
     "deploy": "hexo deploy",
     "server": "hexo server",
     "fix": "markdownlint -f source",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "version:date": "npm version $(cut -c 3-4 <<< $(date +\"%Y\")).$(echo $(date +\"%m\") | sed \"s/^0*//\").$(echo $(date +\"%d\") | sed \"s/^0*//\")"
   },
   "hexo": {
     "version": "6.2.0"
