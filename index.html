@@ -71,6 +71,56 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-setup-neovim-for-yaml-development" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/06/05/setup-neovim-for-yaml-development/" class="article-date">
+  <time class="dt-published" datetime="2022-06-05T16:23:44.000Z" itemprop="datePublished">2022-06-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/06/05/setup-neovim-for-yaml-development/">setup-neovim-for-yaml-development</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>安装服务端</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g yaml-language-server</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>增加一个配置文件<code>lua/servers/yamlls.lua</code></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span> <span class="string">&#x27;lspconfig&#x27;</span>.yamlls.setup &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在入口文件中增加引用：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">&#x27;servers.yamlls&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#yamlls">https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#yamlls</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mingda.dev/2022/06/05/setup-neovim-for-yaml-development/" data-id="cl41j8ttp000lajna4p5u3v06" data-title="setup-neovim-for-yaml-development" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-generate-semantic-version-with-date" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/06/05/generate-semantic-version-with-date/" class="article-date">
@@ -120,7 +170,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/05/generate-semantic-version-with-date/" data-id="cl41iacn2000696oy42r4gfyl" data-title="根据当前日期的年月日生成语义化的版本号" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/05/generate-semantic-version-with-date/" data-id="cl41j8ttd0006ajnablxd3a18" data-title="根据当前日期的年月日生成语义化的版本号" class="article-share-link">分享</a>
       
       
       
@@ -169,7 +219,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/05/setup-neovim-for-json-development/" data-id="cl41iacnf000i96oy4akn8muv" data-title="在Neovim中基于LSP配置Json开发环境" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/05/setup-neovim-for-json-development/" data-id="cl41j8ttn000iajnahfcofaag" data-title="在Neovim中基于LSP配置Json开发环境" class="article-share-link">分享</a>
       
       
       
@@ -230,7 +280,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/05/setup-neovim-for-writing-markdown-documents/" data-id="cl41iacng000k96oyhz9k28ur" data-title="在Neovim中配置markdown书写环境" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/05/setup-neovim-for-writing-markdown-documents/" data-id="cl41j8ttp000kajnahb9w0f6n" data-title="在Neovim中配置markdown书写环境" class="article-share-link">分享</a>
       
       
       
@@ -282,7 +332,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/05/changing-root-dir-with-lua-language-server-in-neovim/" data-id="cl41iacmq000096oycjy541ps" data-title="如何修改Lua Language Server运行时的根目录" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/05/changing-root-dir-with-lua-language-server-in-neovim/" data-id="cl41j8tt20000ajna99wphdi9" data-title="如何修改Lua Language Server运行时的根目录" class="article-share-link">分享</a>
       
       
       
@@ -335,7 +385,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/04/setup-neovim-for-lua-development/" data-id="cl41iacnf000j96oyd9lrdsc8" data-title="在Neovim中配置Lua开发环境" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/setup-neovim-for-lua-development/" data-id="cl41j8tto000jajnabgxs1pum" data-title="在Neovim中配置Lua开发环境" class="article-share-link">分享</a>
       
       
       
@@ -379,7 +429,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/04/convert-boolean-to-string-with-lua/" data-id="cl41iacn1000596oyf8qzbh5h" data-title="convert-boolean-to-string-with-lua" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/convert-boolean-to-string-with-lua/" data-id="cl41j8ttc0005ajna6mb03o2j" data-title="convert-boolean-to-string-with-lua" class="article-share-link">分享</a>
       
       
       
@@ -426,7 +476,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/04/getting-config-path-with-lua-in-neovim/" data-id="cl41iacn3000796oy8qanbjua" data-title="如何在Neovim中获取数据目录和配置目录" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/getting-config-path-with-lua-in-neovim/" data-id="cl41j8tte0007ajnafx0b3cnx" data-title="如何在Neovim中获取数据目录和配置目录" class="article-share-link">分享</a>
       
       
       
@@ -476,7 +526,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/04/managing-plugins-with-packer-in-neovim/" data-id="cl41iacnb000d96oy925095e6" data-title="用packer.nvim来管理Neovim的插件" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/managing-plugins-with-packer-in-neovim/" data-id="cl41j8ttk000dajnaap3j6pq7" data-title="用packer.nvim来管理Neovim的插件" class="article-share-link">分享</a>
       
       
       
@@ -523,51 +573,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/04/how-to-catch-require-error-in-lua/" data-id="cl41iacn5000896oy6m5i4vlu" data-title="如何在Lua中处理require依赖不存在的问题" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-how-to-end-script-execution-in-lua" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/06/04/how-to-end-script-execution-in-lua/" class="article-date">
-  <time class="dt-published" datetime="2022-06-04T12:08:09.000Z" itemprop="datePublished">2022-06-04</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/06/04/how-to-end-script-execution-in-lua/">如何终止Lua脚本的执行</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>在执行<code>Lua</code>脚本的过程中，判断了一个前置条件，如果这个条件不满足，那么后续的代码就都不执行了，比如一个场景的场景就是判断<code>Neovim</code>的版本，如果不是<code>0.7.0</code>，就不执行后面的配置，提示先更新<code>Neovim</code>的版本。关键的语法就是<code>return end</code>：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> is_directory_exists(install_path) <span class="keyword">then</span></span><br><span class="line">  <span class="keyword">do</span> <span class="keyword">return</span> <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/20188458/how-to-exit-a-lua-scripts-execution">https://stackoverflow.com/questions/20188458/how-to-exit-a-lua-scripts-execution</a></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/04/how-to-end-script-execution-in-lua/" data-id="cl41iacn6000996oy9a2qc9zx" data-title="如何终止Lua脚本的执行" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/how-to-catch-require-error-in-lua/" data-id="cl41j8tte0008ajnafyig4o88" data-title="如何在Lua中处理require依赖不存在的问题" class="article-share-link">分享</a>
       
       
       
@@ -615,6 +621,10 @@
       <ul>
         
           <li>
+            <a href="/2022/06/05/setup-neovim-for-yaml-development/">setup-neovim-for-yaml-development</a>
+          </li>
+        
+          <li>
             <a href="/2022/06/05/generate-semantic-version-with-date/">根据当前日期的年月日生成语义化的版本号</a>
           </li>
         
@@ -628,10 +638,6 @@
         
           <li>
             <a href="/2022/06/05/changing-root-dir-with-lua-language-server-in-neovim/">如何修改Lua Language Server运行时的根目录</a>
-          </li>
-        
-          <li>
-            <a href="/2022/06/04/setup-neovim-for-lua-development/">在Neovim中配置Lua开发环境</a>
           </li>
         
       </ul>

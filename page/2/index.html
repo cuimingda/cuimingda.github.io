@@ -71,6 +71,50 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-how-to-end-script-execution-in-lua" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/06/04/how-to-end-script-execution-in-lua/" class="article-date">
+  <time class="dt-published" datetime="2022-06-04T12:08:09.000Z" itemprop="datePublished">2022-06-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/06/04/how-to-end-script-execution-in-lua/">如何终止Lua脚本的执行</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在执行<code>Lua</code>脚本的过程中，判断了一个前置条件，如果这个条件不满足，那么后续的代码就都不执行了，比如一个场景的场景就是判断<code>Neovim</code>的版本，如果不是<code>0.7.0</code>，就不执行后面的配置，提示先更新<code>Neovim</code>的版本。关键的语法就是<code>return end</code>：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> is_directory_exists(install_path) <span class="keyword">then</span></span><br><span class="line">  <span class="keyword">do</span> <span class="keyword">return</span> <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/20188458/how-to-exit-a-lua-scripts-execution">https://stackoverflow.com/questions/20188458/how-to-exit-a-lua-scripts-execution</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mingda.dev/2022/06/04/how-to-end-script-execution-in-lua/" data-id="cl41j8ttf0009ajna40oc4qp7" data-title="如何终止Lua脚本的执行" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-check-if-file-or-directory-exists-with-lua" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/06/04/check-if-file-or-directory-exists-with-lua/" class="article-date">
@@ -112,7 +156,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/04/check-if-file-or-directory-exists-with-lua/" data-id="cl41iacmw000196oy9thda95c" data-title="如何在Lua中检测文件或者目录是否存在" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/check-if-file-or-directory-exists-with-lua/" data-id="cl41j8tt70001ajna05po1x87" data-title="如何在Lua中检测文件或者目录是否存在" class="article-share-link">分享</a>
       
       
       
@@ -158,7 +202,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/04/concat-strings-in-lua/" data-id="cl41iacmz000396oyfd0j8lmu" data-title="在Lua中将两个字符串合并为一个字符串" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/concat-strings-in-lua/" data-id="cl41j8tta0003ajna43aveuya" data-title="在Lua中将两个字符串合并为一个字符串" class="article-share-link">分享</a>
       
       
       
@@ -196,7 +240,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/03/performing-make-and-cd-using-one-single-command/" data-id="cl41iacnb000e96oye8zwczfa" data-title="perform-make-and-cd-using-one-single-command" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/03/performing-make-and-cd-using-one-single-command/" data-id="cl41j8ttk000eajnad0wb324v" data-title="perform-make-and-cd-using-one-single-command" class="article-share-link">分享</a>
       
       
       
@@ -245,7 +289,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/03/how-to-lookup-value-with-date-week-ago-in-google-spreadsheets/" data-id="cl41iacn9000b96oy3ylp2o4h" data-title="在Google表格中查询一周以前对应日期的数据" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/03/how-to-lookup-value-with-date-week-ago-in-google-spreadsheets/" data-id="cl41j8tti000bajna6s1pck7n" data-title="在Google表格中查询一周以前对应日期的数据" class="article-share-link">分享</a>
       
       
       
@@ -291,7 +335,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/03/how-to-ignore-na-with-average-function-in-google-spreadsheets/" data-id="cl41iacn7000a96oy126z654q" data-title="如何在Google表格中计算平均值的时候忽略N/A" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/03/how-to-ignore-na-with-average-function-in-google-spreadsheets/" data-id="cl41j8ttg000aajnabmpn6aeq" data-title="如何在Google表格中计算平均值的时候忽略N/A" class="article-share-link">分享</a>
       
       
       
@@ -411,7 +455,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/29/connecting-tdsql-c-mysql-from-scf-on-tencent-cloud/" data-id="cl41iacn0000496oyekcqacdu" data-title="用腾讯云的web函数操作cynosdb数据库" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/05/29/connecting-tdsql-c-mysql-from-scf-on-tencent-cloud/" data-id="cl41j8ttb0004ajnad7ev2g8n" data-title="用腾讯云的web函数操作cynosdb数据库" class="article-share-link">分享</a>
       
       
       
@@ -464,7 +508,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/24/setting-default-branch-name-for-git-init/" data-id="cl41iacne000h96oyguuhhzue" data-title="setting-default-branch-name-for-git-init" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/05/24/setting-default-branch-name-for-git-init/" data-id="cl41j8ttn000hajnab55h1v83" data-title="setting-default-branch-name-for-git-init" class="article-share-link">分享</a>
       
       
       
@@ -512,7 +556,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/checking-if-internet-is-blocked-with-curl/" data-id="cl41iacmy000296oy1xc9fa9r" data-title="基于curl判断当前网络是否处于封锁状态" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/05/23/checking-if-internet-is-blocked-with-curl/" data-id="cl41j8tt90002ajna635ado60" data-title="基于curl判断当前网络是否处于封锁状态" class="article-share-link">分享</a>
       
       
       
@@ -561,70 +605,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/pushing-commit-and-tag-at-the-same-time/" data-id="cl41iacnd000f96oybca4hcde" data-title="如何在git中同时推送commit和tag？" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-linting-markdown-files-with-markdownlint-cli-and-husky" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/05/23/linting-markdown-files-with-markdownlint-cli-and-husky/" class="article-date">
-  <time class="dt-published" datetime="2022-05-23T13:07:54.000Z" itemprop="datePublished">2022-05-23</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/05/23/linting-markdown-files-with-markdownlint-cli-and-husky/">基于markdownlint和husky校验markdown文件</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>基于Hexo来写博客，本质上就是写大量的markdown文档，那是不是有类似eslint一样的工具，也能对markdown文件进行校验呢，答案是确定的，工具的名称就是<code>markdownlint</code>。</p>
-<p>首先安装<code>markdownlint</code>的命令行工具：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install markdownlint-cli</span><br></pre></td></tr></table></figure>
-
-<p>然后安装<code>husky</code>：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install husky --save-dev</span><br></pre></td></tr></table></figure>
-
-<p>初始化</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm set-script prepare &quot;husky install&quot;</span><br><span class="line">npm run prepare</span><br></pre></td></tr></table></figure>
-
-<p>增加一个钩子</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npx husky add .husky/pre-commit &quot;markdownlint source&quot;</span><br><span class="line">git add .husky/pre-commit</span><br></pre></td></tr></table></figure>
-
-<p>这时候，只要我们再次提交commit，就会检查source目录中的所有<code>markdown</code>文件是不是符合要求，如果不符合要求，其实还可以用快速修理</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">markdownlint -f source</span><br></pre></td></tr></table></figure>
-
-<p>具体有哪些规则，可以直接到markdownlint的页面查询：<br><a target="_blank" rel="noopener" href="https://github.com/DavidAnson/markdownlint/blob/HEAD/doc/Rules.md">https://github.com/DavidAnson/markdownlint/blob/HEAD/doc/Rules.md</a></p>
-<p>接下来需要做一些配置，比如说关闭每一行长度的限制，默认这个值是80，但我们是用来写博客，不是一行行写，而是一段段写，一行文字超过80个字符，并且成为一段话，这是很正常的情况。</p>
-<p>创建<code>.markdownlint.json</code>文件，并且增加下面的内容：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;line-length&quot;</span><span class="punctuation">:</span> <span class="keyword">false</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/DavidAnson/markdownlint">https://github.com/DavidAnson/markdownlint</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/typicode/husky">https://github.com/typicode/husky</a></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/linting-markdown-files-with-markdownlint-cli-and-husky/" data-id="cl41iacna000c96oy49fbaleu" data-title="基于markdownlint和husky校验markdown文件" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/05/23/pushing-commit-and-tag-at-the-same-time/" data-id="cl41j8ttl000fajnaa4qd1zpu" data-title="如何在git中同时推送commit和tag？" class="article-share-link">分享</a>
       
       
       
@@ -672,6 +653,10 @@
       <ul>
         
           <li>
+            <a href="/2022/06/05/setup-neovim-for-yaml-development/">setup-neovim-for-yaml-development</a>
+          </li>
+        
+          <li>
             <a href="/2022/06/05/generate-semantic-version-with-date/">根据当前日期的年月日生成语义化的版本号</a>
           </li>
         
@@ -685,10 +670,6 @@
         
           <li>
             <a href="/2022/06/05/changing-root-dir-with-lua-language-server-in-neovim/">如何修改Lua Language Server运行时的根目录</a>
-          </li>
-        
-          <li>
-            <a href="/2022/06/04/setup-neovim-for-lua-development/">在Neovim中配置Lua开发环境</a>
           </li>
         
       </ul>
