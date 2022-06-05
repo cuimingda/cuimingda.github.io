@@ -63,3 +63,4 @@ npm install remark-preset-lint-markdown-style-guide
 * <https://www.npmjs.com/package/remark-preset-lint-consistent>
 * <https://www.npmjs.com/package/remark-preset-lint-recommended>
 * <https://github.com/op3/boris/blob/master/.remarkrc.json>
+* <https://github.com/remarkjs/remark-lint/blob/main/packages/remark-preset-lint-markdown-style-guide/index.js>
