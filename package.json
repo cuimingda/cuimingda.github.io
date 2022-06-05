@@ -23,7 +23,8 @@
     "hexo-renderer-marked": "^5.0.0",
     "hexo-renderer-stylus": "^2.0.0",
     "hexo-server": "^3.0.0",
-    "hexo-theme-landscape": "^0.0.3"
+    "hexo-theme-landscape": "^0.0.3",
+    "remark-preset-lint-markdown-style-guide": "^5.1.2"
   },
   "devDependencies": {
     "husky": "^8.0.1"

@@ -1,0 +1,17 @@
+{
+  "plugins": [
+    "remark-preset-lint-markdown-style-guide",
+    ["remark-lint-list-item-indent", "space"],
+    ["remark-lint-unordered-list-marker-style", "*"],
+    ["remark-lint-heading-style", false],
+    ["remark-lint-maximum-line-length", false],
+    ["remark-lint-maximum-heading-length", false],
+    ["remark-lint-fenced-code-marker", "consistent"]
+  ],
+  "settings": {
+    "rule": "-",
+    "ruleRepetition": 3,
+    "listItemIndent": 1,
+    "bullet": "*"
+  }
+}
