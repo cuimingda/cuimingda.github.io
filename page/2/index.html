@@ -71,6 +71,93 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-performing-make-and-cd-using-one-single-command" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/06/03/performing-make-and-cd-using-one-single-command/" class="article-date">
+  <time class="dt-published" datetime="2022-06-03T14:37:29.000Z" itemprop="datePublished">2022-06-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/06/03/performing-make-and-cd-using-one-single-command/">perform-make-and-cd-using-one-single-command</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mingda.dev/2022/06/03/performing-make-and-cd-using-one-single-command/" data-id="cl416j12p000dbbnqdn0qah0r" data-title="perform-make-and-cd-using-one-single-command" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-how-to-lookup-value-with-date-week-ago-in-google-spreadsheets" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/06/03/how-to-lookup-value-with-date-week-ago-in-google-spreadsheets/" class="article-date">
+  <time class="dt-published" datetime="2022-06-03T04:58:11.000Z" itemprop="datePublished">2022-06-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/06/03/how-to-lookup-value-with-date-week-ago-in-google-spreadsheets/">在Google表格中查询一周以前对应日期的数据</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在Google表格中有两列数据，第一列（B）是日期，第三列（D）是体重值，现在的诉求就是在E列计算当天的体重和一周前体重的差值。</p>
+<p>获取一周以前日期对应的数值，就要利用到<code>vlookup</code>函数，比如调用方法：</p>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=<span class="built_in">vlookup</span>(<span class="symbol">B2</span>-<span class="number">7</span>, <span class="symbol">B:D</span>,<span class="number">3</span>, <span class="built_in">false</span>)</span><br></pre></td></tr></table></figure>
+
+<p><code>vlookup</code>有四个参数，第一个是要计算的值，<code>B2</code>在这里对应的是今天的日期，日期可以直接通过加减，得出一周以前的日期，<code>B:D</code>对应要查询的区域，要查询区域的第一列，对应要查询的值，<code>3</code>代表要匹配的结果，<code>false</code>在这里代表不要排序。</p>
+<p>那最后差值的计算就简单了</p>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=<span class="symbol">D2</span>-<span class="built_in">vlookup</span>(<span class="symbol">B2</span>-<span class="number">7</span>, <span class="symbol">B:D</span>,<span class="number">3</span>, <span class="built_in">false</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://support.google.com/docs/answer/3093318?hl=en">https://support.google.com/docs/answer/3093318?hl=en</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mingda.dev/2022/06/03/how-to-lookup-value-with-date-week-ago-in-google-spreadsheets/" data-id="cl416j12m000abbnqe6fuei53" data-title="在Google表格中查询一周以前对应日期的数据" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-how-to-ignore-na-with-average-function-in-google-spreadsheets" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/06/03/how-to-ignore-na-with-average-function-in-google-spreadsheets/" class="article-date">
@@ -105,7 +192,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/03/how-to-ignore-na-with-average-function-in-google-spreadsheets/" data-id="cl4020iit0008bbode9x9aj7g" data-title="如何在Google表格中计算平均值的时候忽略N/A" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/03/how-to-ignore-na-with-average-function-in-google-spreadsheets/" data-id="cl416j12l0009bbnq68350tds" data-title="如何在Google表格中计算平均值的时候忽略N/A" class="article-share-link">分享</a>
       
       
       
@@ -225,7 +312,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/29/connecting-tdsql-c-mysql-from-scf-on-tencent-cloud/" data-id="cl4020iip0003bbod4v3u48dy" data-title="用腾讯云的web函数操作cynosdb数据库" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/05/29/connecting-tdsql-c-mysql-from-scf-on-tencent-cloud/" data-id="cl416j12h0004bbnq78b0a1b1" data-title="用腾讯云的web函数操作cynosdb数据库" class="article-share-link">分享</a>
       
       
       
@@ -278,7 +365,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/24/setting-default-branch-name-for-git-init/" data-id="cl4020iiz000fbbod0ugb2hn8" data-title="setting-default-branch-name-for-git-init" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/05/24/setting-default-branch-name-for-git-init/" data-id="cl416j12r000gbbnqaylkcwnd" data-title="setting-default-branch-name-for-git-init" class="article-share-link">分享</a>
       
       
       
@@ -326,7 +413,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/checking-if-internet-is-blocked-with-curl/" data-id="cl4020iim0001bbodb3yf52q5" data-title="基于curl判断当前网络是否处于封锁状态" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/05/23/checking-if-internet-is-blocked-with-curl/" data-id="cl416j12f0002bbnq0fqiebnl" data-title="基于curl判断当前网络是否处于封锁状态" class="article-share-link">分享</a>
       
       
       
@@ -375,7 +462,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/pushing-commit-and-tag-at-the-same-time/" data-id="cl4020iiy000dbbod1w4tes8t" data-title="如何在git中同时推送commit和tag？" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/05/23/pushing-commit-and-tag-at-the-same-time/" data-id="cl416j12q000ebbnqh3r8d10v" data-title="如何在git中同时推送commit和tag？" class="article-share-link">分享</a>
       
       
       
@@ -438,7 +525,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/linting-markdown-files-with-markdownlint-cli-and-husky/" data-id="cl4020iiv000abbod38ftaset" data-title="基于markdownlint和husky校验markdown文件" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/05/23/linting-markdown-files-with-markdownlint-cli-and-husky/" data-id="cl416j12o000bbbnqbquo595i" data-title="基于markdownlint和husky校验markdown文件" class="article-share-link">分享</a>
       
       
       
@@ -485,7 +572,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/05/23/removing-passphrase-from-ssh-private-key/" data-id="cl4020iiz000ebbod51tw5kul" data-title="如何清空ssh私钥对应的passphrase？" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/05/23/removing-passphrase-from-ssh-private-key/" data-id="cl416j12r000fbbnqfula3c7d" data-title="如何清空ssh私钥对应的passphrase？" class="article-share-link">分享</a>
       
       
       
@@ -533,6 +620,14 @@
       <ul>
         
           <li>
+            <a href="/2022/06/05/setup-neovim-for-writing-markdown-documents/">在Neovim中配置markdown书写环境</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/05/changing-root-dir-with-lua-language-server-in-neovim/">如何修改Lua Language Server运行时的根目录</a>
+          </li>
+        
+          <li>
             <a href="/2022/06/04/setup-neovim-for-lua-development/">在Neovim中配置Lua开发环境</a>
           </li>
         
@@ -542,14 +637,6 @@
         
           <li>
             <a href="/2022/06/04/getting-config-path-with-lua-in-neovim/">如何在Neovim中获取数据目录和配置目录</a>
-          </li>
-        
-          <li>
-            <a href="/2022/06/04/managing-plugins-with-packer-in-neovim/">用packer.nvim来管理Neovim的插件</a>
-          </li>
-        
-          <li>
-            <a href="/2022/06/04/how-to-catch-require-error-in-lua/">如何在Lua中处理require依赖不存在的问题</a>
           </li>
         
       </ul>

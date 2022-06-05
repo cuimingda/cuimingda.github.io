@@ -71,6 +71,118 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-setup-neovim-for-writing-markdown-documents" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/06/05/setup-neovim-for-writing-markdown-documents/" class="article-date">
+  <time class="dt-published" datetime="2022-06-05T04:00:11.000Z" itemprop="datePublished">2022-06-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/06/05/setup-neovim-for-writing-markdown-documents/">在Neovim中配置markdown书写环境</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="安装服务端"><a href="#安装服务端" class="headerlink" title="安装服务端"></a>安装服务端</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g remark-language-server</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置客户端"><a href="#配置客户端" class="headerlink" title="配置客户端"></a>配置客户端</h2><p>增加一个配置文件<code>lua/servers/remark_ls.lua</code></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span> <span class="string">&#x27;lspconfig&#x27;</span>.remark_ls.setup &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>init.lua</code>中增加引用</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">&#x27;servers.remark_ls&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="项目配置文件"><a href="#项目配置文件" class="headerlink" title="项目配置文件"></a>项目配置文件</h2><p>在每一个项目中，都要增加对应的一个配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install remark-preset-lint-markdown-style-guide</span><br></pre></td></tr></table></figure>
+
+<p>并且在根目录增加一个<code>.remarkrc.json</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;plugins&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="string">&quot;remark-preset-lint-markdown-style-guide&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-list-item-indent&quot;</span><span class="punctuation">,</span> <span class="string">&quot;space&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-unordered-list-marker-style&quot;</span><span class="punctuation">,</span> <span class="string">&quot;*&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-heading-style&quot;</span><span class="punctuation">,</span> <span class="keyword">false</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-maximum-line-length&quot;</span><span class="punctuation">,</span> <span class="keyword">false</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-maximum-heading-length&quot;</span><span class="punctuation">,</span> <span class="keyword">false</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-fenced-code-marker&quot;</span><span class="punctuation">,</span> <span class="string">&quot;consistent&quot;</span><span class="punctuation">]</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;settings&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;rule&quot;</span><span class="punctuation">:</span> <span class="string">&quot;-&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;ruleRepetition&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;listItemIndent&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;bullet&quot;</span><span class="punctuation">:</span> <span class="string">&quot;*&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/remarkjs/remark/tree/main/packages/remark-stringify#api">https://github.com/remarkjs/remark/tree/main/packages/remark-stringify#api</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/remarkjs/remark-lint#rules">https://github.com/remarkjs/remark-lint#rules</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/remark-preset-lint-markdown-style-guide">https://www.npmjs.com/package/remark-preset-lint-markdown-style-guide</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/remark-preset-lint-consistent">https://www.npmjs.com/package/remark-preset-lint-consistent</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/remark-preset-lint-recommended">https://www.npmjs.com/package/remark-preset-lint-recommended</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/op3/boris/blob/master/.remarkrc.json">https://github.com/op3/boris/blob/master/.remarkrc.json</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mingda.dev/2022/06/05/setup-neovim-for-writing-markdown-documents/" data-id="cl416j12t000ibbnq7ij20lhc" data-title="在Neovim中配置markdown书写环境" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-changing-root-dir-with-lua-language-server-in-neovim" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/06/05/changing-root-dir-with-lua-language-server-in-neovim/" class="article-date">
+  <time class="dt-published" datetime="2022-06-05T03:24:38.000Z" itemprop="datePublished">2022-06-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/06/05/changing-root-dir-with-lua-language-server-in-neovim/">如何修改Lua Language Server运行时的根目录</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>打开<code>lua</code>文件的时候，提示了一个错误，大意就是工作目录被设置到了用户根目录，Lua LS拒绝加载此目录，让用户检查配置，还给出了<a target="_blank" rel="noopener" href="https://github.com/sumneko/lua-language-server/wiki/Why-scanning-home-folder">官网的说明页面</a></p>
+<p>在<a target="_blank" rel="noopener" href="https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua">nvim-lspconfig的配置页面</a>，找到了<code>summeko_lua</code>的默认配置：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root_pattern(<span class="string">&quot;.luarc.json&quot;</span>, <span class="string">&quot;.luacheckrc&quot;</span>, <span class="string">&quot;.stylua.toml&quot;</span>, <span class="string">&quot;selene.toml&quot;</span>, <span class="string">&quot;.git&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>我在项目目录确实使用了<code>ln -s</code>，前面几个没有匹配到，但原则上应该可以匹配到<code>.git</code>，既然没有匹配到，让我们收到修改为根据<code>package.json</code>来匹配根目录：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root_dir = root_pattern(<span class="string">&quot;package.json&quot;</span>),</span><br></pre></td></tr></table></figure>
+
+<p>这里使用了<code>root_pattern</code>函数，记得要引用进来</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> root_pattern = <span class="built_in">require</span>(<span class="string">&#x27;lspconfig.util&#x27;</span>).root_pattern</span><br></pre></td></tr></table></figure>
+
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/sumneko/lua-language-server/wiki/Why-scanning-home-folder">https://github.com/sumneko/lua-language-server/wiki/Why-scanning-home-folder</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua">https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mingda.dev/2022/06/05/changing-root-dir-with-lua-language-server-in-neovim/" data-id="cl416j1280000bbnqcnhf5mqu" data-title="如何修改Lua Language Server运行时的根目录" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-setup-neovim-for-lua-development" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/06/04/setup-neovim-for-lua-development/" class="article-date">
@@ -112,7 +224,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/04/setup-neovim-for-lua-development/" data-id="cl4020ij0000gbbodem3rejez" data-title="在Neovim中配置Lua开发环境" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/setup-neovim-for-lua-development/" data-id="cl416j12s000hbbnqa0c7gmkd" data-title="在Neovim中配置Lua开发环境" class="article-share-link">分享</a>
       
       
       
@@ -156,7 +268,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/04/convert-boolean-to-string-with-lua/" data-id="cl4020iiq0004bbod2ni6b4o3" data-title="convert-boolean-to-string-with-lua" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/convert-boolean-to-string-with-lua/" data-id="cl416j12i0005bbnqc9eidnub" data-title="convert-boolean-to-string-with-lua" class="article-share-link">分享</a>
       
       
       
@@ -203,7 +315,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/04/getting-config-path-with-lua-in-neovim/" data-id="cl4020iir0005bbodd0tlas3q" data-title="如何在Neovim中获取数据目录和配置目录" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/getting-config-path-with-lua-in-neovim/" data-id="cl416j12j0006bbnqhjnkhzv2" data-title="如何在Neovim中获取数据目录和配置目录" class="article-share-link">分享</a>
       
       
       
@@ -253,7 +365,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/04/managing-plugins-with-packer-in-neovim/" data-id="cl4020iiw000bbbodf0mqdmg4" data-title="用packer.nvim来管理Neovim的插件" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/managing-plugins-with-packer-in-neovim/" data-id="cl416j12o000cbbnqekd3dbji" data-title="用packer.nvim来管理Neovim的插件" class="article-share-link">分享</a>
       
       
       
@@ -300,7 +412,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/04/how-to-catch-require-error-in-lua/" data-id="cl4020iir0006bbodh2mxbl5g" data-title="如何在Lua中处理require依赖不存在的问题" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/how-to-catch-require-error-in-lua/" data-id="cl416j12j0007bbnqan5o8bc3" data-title="如何在Lua中处理require依赖不存在的问题" class="article-share-link">分享</a>
       
       
       
@@ -344,7 +456,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/04/how-to-end-script-execution-in-lua/" data-id="cl4020iis0007bbodbmuhe0ul" data-title="如何终止Lua脚本的执行" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/how-to-end-script-execution-in-lua/" data-id="cl416j12k0008bbnqbdp66bya" data-title="如何终止Lua脚本的执行" class="article-share-link">分享</a>
       
       
       
@@ -397,7 +509,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/04/check-if-file-or-directory-exists-with-lua/" data-id="cl4020iih0000bbod7snkcllo" data-title="如何在Lua中检测文件或者目录是否存在" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/check-if-file-or-directory-exists-with-lua/" data-id="cl416j12d0001bbnq41h89e3v" data-title="如何在Lua中检测文件或者目录是否存在" class="article-share-link">分享</a>
       
       
       
@@ -443,94 +555,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/04/concat-strings-in-lua/" data-id="cl4020iio0002bbod5tvggdw1" data-title="在Lua中将两个字符串合并为一个字符串" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-performing-make-and-cd-using-one-single-command" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/06/03/performing-make-and-cd-using-one-single-command/" class="article-date">
-  <time class="dt-published" datetime="2022-06-03T14:37:29.000Z" itemprop="datePublished">2022-06-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/06/03/performing-make-and-cd-using-one-single-command/">perform-make-and-cd-using-one-single-command</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/03/performing-make-and-cd-using-one-single-command/" data-id="cl4020iix000cbbodaoue9vfx" data-title="perform-make-and-cd-using-one-single-command" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-how-to-lookup-value-with-date-week-ago-in-google-spreadsheets" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/06/03/how-to-lookup-value-with-date-week-ago-in-google-spreadsheets/" class="article-date">
-  <time class="dt-published" datetime="2022-06-03T04:58:11.000Z" itemprop="datePublished">2022-06-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/06/03/how-to-lookup-value-with-date-week-ago-in-google-spreadsheets/">在Google表格中查询一周以前对应日期的数据</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>在Google表格中有两列数据，第一列（B）是日期，第三列（D）是体重值，现在的诉求就是在E列计算当天的体重和一周前体重的差值。</p>
-<p>获取一周以前日期对应的数值，就要利用到<code>vlookup</code>函数，比如调用方法：</p>
-<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=<span class="built_in">vlookup</span>(<span class="symbol">B2</span>-<span class="number">7</span>, <span class="symbol">B:D</span>,<span class="number">3</span>, <span class="built_in">false</span>)</span><br></pre></td></tr></table></figure>
-
-<p><code>vlookup</code>有四个参数，第一个是要计算的值，<code>B2</code>在这里对应的是今天的日期，日期可以直接通过加减，得出一周以前的日期，<code>B:D</code>对应要查询的区域，要查询区域的第一列，对应要查询的值，<code>3</code>代表要匹配的结果，<code>false</code>在这里代表不要排序。</p>
-<p>那最后差值的计算就简单了</p>
-<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=<span class="symbol">D2</span>-<span class="built_in">vlookup</span>(<span class="symbol">B2</span>-<span class="number">7</span>, <span class="symbol">B:D</span>,<span class="number">3</span>, <span class="built_in">false</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://support.google.com/docs/answer/3093318?hl=en">https://support.google.com/docs/answer/3093318?hl=en</a></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/03/how-to-lookup-value-with-date-week-ago-in-google-spreadsheets/" data-id="cl4020iiu0009bbodcsc7di5b" data-title="在Google表格中查询一周以前对应日期的数据" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/concat-strings-in-lua/" data-id="cl416j12g0003bbnq4g7v0423" data-title="在Lua中将两个字符串合并为一个字符串" class="article-share-link">分享</a>
       
       
       
@@ -578,6 +603,14 @@
       <ul>
         
           <li>
+            <a href="/2022/06/05/setup-neovim-for-writing-markdown-documents/">在Neovim中配置markdown书写环境</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/05/changing-root-dir-with-lua-language-server-in-neovim/">如何修改Lua Language Server运行时的根目录</a>
+          </li>
+        
+          <li>
             <a href="/2022/06/04/setup-neovim-for-lua-development/">在Neovim中配置Lua开发环境</a>
           </li>
         
@@ -587,14 +620,6 @@
         
           <li>
             <a href="/2022/06/04/getting-config-path-with-lua-in-neovim/">如何在Neovim中获取数据目录和配置目录</a>
-          </li>
-        
-          <li>
-            <a href="/2022/06/04/managing-plugins-with-packer-in-neovim/">用packer.nvim来管理Neovim的插件</a>
-          </li>
-        
-          <li>
-            <a href="/2022/06/04/how-to-catch-require-error-in-lua/">如何在Lua中处理require依赖不存在的问题</a>
           </li>
         
       </ul>

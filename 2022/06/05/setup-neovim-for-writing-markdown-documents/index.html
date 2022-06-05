@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>在Neovim中配置markdown书写环境 | 开发者明达</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="安装服务端1npm install -g remark-language-server  配置客户端增加一个配置文件lua&#x2F;servers&#x2F;remark_ls.lua 1require &amp;#x27;lspconfig&amp;#x27;.remark_ls.setup &amp;#123;&amp;#125;  在init.lua中增加引用 1require(&amp;#x27;servers.remark_ls&amp;#x27;)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Neovim中配置markdown书写环境">
+<meta property="og:url" content="https://mingda.dev/2022/06/05/setup-neovim-for-writing-markdown-documents/index.html">
+<meta property="og:site_name" content="开发者明达">
+<meta property="og:description" content="安装服务端1npm install -g remark-language-server  配置客户端增加一个配置文件lua&#x2F;servers&#x2F;remark_ls.lua 1require &amp;#x27;lspconfig&amp;#x27;.remark_ls.setup &amp;#123;&amp;#125;  在init.lua中增加引用 1require(&amp;#x27;servers.remark_ls&amp;#x27;)">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-06-05T04:00:11.000Z">
+<meta property="article:modified_time" content="2022-06-05T10:46:41.526Z">
+<meta property="article:author" content="Cui Mingda">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="开发者明达" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">开发者明达</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mingda.dev"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-setup-neovim-for-writing-markdown-documents" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/06/05/setup-neovim-for-writing-markdown-documents/" class="article-date">
+  <time class="dt-published" datetime="2022-06-05T04:00:11.000Z" itemprop="datePublished">2022-06-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      在Neovim中配置markdown书写环境
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="安装服务端"><a href="#安装服务端" class="headerlink" title="安装服务端"></a>安装服务端</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g remark-language-server</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置客户端"><a href="#配置客户端" class="headerlink" title="配置客户端"></a>配置客户端</h2><p>增加一个配置文件<code>lua/servers/remark_ls.lua</code></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span> <span class="string">&#x27;lspconfig&#x27;</span>.remark_ls.setup &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>init.lua</code>中增加引用</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">&#x27;servers.remark_ls&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="项目配置文件"><a href="#项目配置文件" class="headerlink" title="项目配置文件"></a>项目配置文件</h2><p>在每一个项目中，都要增加对应的一个配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install remark-preset-lint-markdown-style-guide</span><br></pre></td></tr></table></figure>
+
+<p>并且在根目录增加一个<code>.remarkrc.json</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;plugins&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="string">&quot;remark-preset-lint-markdown-style-guide&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-list-item-indent&quot;</span><span class="punctuation">,</span> <span class="string">&quot;space&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-unordered-list-marker-style&quot;</span><span class="punctuation">,</span> <span class="string">&quot;*&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-heading-style&quot;</span><span class="punctuation">,</span> <span class="keyword">false</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-maximum-line-length&quot;</span><span class="punctuation">,</span> <span class="keyword">false</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-maximum-heading-length&quot;</span><span class="punctuation">,</span> <span class="keyword">false</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-fenced-code-marker&quot;</span><span class="punctuation">,</span> <span class="string">&quot;consistent&quot;</span><span class="punctuation">]</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;settings&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;rule&quot;</span><span class="punctuation">:</span> <span class="string">&quot;-&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;ruleRepetition&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;listItemIndent&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;bullet&quot;</span><span class="punctuation">:</span> <span class="string">&quot;*&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/remarkjs/remark/tree/main/packages/remark-stringify#api">https://github.com/remarkjs/remark/tree/main/packages/remark-stringify#api</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/remarkjs/remark-lint#rules">https://github.com/remarkjs/remark-lint#rules</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/remark-preset-lint-markdown-style-guide">https://www.npmjs.com/package/remark-preset-lint-markdown-style-guide</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/remark-preset-lint-consistent">https://www.npmjs.com/package/remark-preset-lint-consistent</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/remark-preset-lint-recommended">https://www.npmjs.com/package/remark-preset-lint-recommended</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/op3/boris/blob/master/.remarkrc.json">https://github.com/op3/boris/blob/master/.remarkrc.json</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mingda.dev/2022/06/05/setup-neovim-for-writing-markdown-documents/" data-id="cl416j12t000ibbnq7ij20lhc" data-title="在Neovim中配置markdown书写环境" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2022/06/05/changing-root-dir-with-lua-language-server-in-neovim/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">如何修改Lua Language Server运行时的根目录</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/06/05/setup-neovim-for-writing-markdown-documents/">在Neovim中配置markdown书写环境</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/05/changing-root-dir-with-lua-language-server-in-neovim/">如何修改Lua Language Server运行时的根目录</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/04/setup-neovim-for-lua-development/">在Neovim中配置Lua开发环境</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/04/convert-boolean-to-string-with-lua/">convert-boolean-to-string-with-lua</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/04/getting-config-path-with-lua-in-neovim/">如何在Neovim中获取数据目录和配置目录</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 Cui Mingda<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
