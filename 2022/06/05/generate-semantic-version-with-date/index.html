@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>根据当前日期的年月日生成语义化的版本号 | 开发者明达</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="如果今天是2022年5月2日，那么希望生成22.5.2这种版本号，并且包装成一个package.json中的script命令。 首先要生成日期的年份： 12echo $(date +&quot;%Y&quot;)&quot; 2022  为了截取日期年份字符串的后两位，我们用到cut命令，第一个字符的序号是1： 12echo $(cut -c 3-4 &lt;&lt;&lt; $(date +&amp;q">
+<meta property="og:type" content="article">
+<meta property="og:title" content="根据当前日期的年月日生成语义化的版本号">
+<meta property="og:url" content="https://mingda.dev/2022/06/05/generate-semantic-version-with-date/index.html">
+<meta property="og:site_name" content="开发者明达">
+<meta property="og:description" content="如果今天是2022年5月2日，那么希望生成22.5.2这种版本号，并且包装成一个package.json中的script命令。 首先要生成日期的年份： 12echo $(date +&quot;%Y&quot;)&quot; 2022  为了截取日期年份字符串的后两位，我们用到cut命令，第一个字符的序号是1： 12echo $(cut -c 3-4 &lt;&lt;&lt; $(date +&amp;q">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-06-05T15:28:16.000Z">
+<meta property="article:modified_time" content="2022-06-05T15:55:56.692Z">
+<meta property="article:author" content="Cui Mingda">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="开发者明达" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">开发者明达</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mingda.dev"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-generate-semantic-version-with-date" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/06/05/generate-semantic-version-with-date/" class="article-date">
+  <time class="dt-published" datetime="2022-06-05T15:28:16.000Z" itemprop="datePublished">2022-06-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      根据当前日期的年月日生成语义化的版本号
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>如果今天是2022年5月2日，那么希望生成<code>22.5.2</code>这种版本号，并且包装成一个<code>package.json</code>中的<code>script</code>命令。</p>
+<p>首先要生成日期的年份：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo $(date +&quot;%Y&quot;)</span><br><span class="line">&quot; 2022</span><br></pre></td></tr></table></figure>
+
+<p>为了截取日期年份字符串的后两位，我们用到<code>cut</code>命令，第一个字符的序号是<code>1</code>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo $(cut -c 3-4 &lt;&lt;&lt; $(date +&quot;%Y&quot;))</span><br><span class="line">&quot; 22</span><br></pre></td></tr></table></figure>
+
+<p>然后是获取当前日期的月份</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo $(date +&quot;%m&quot;)</span><br><span class="line">&quot; 05</span><br></pre></td></tr></table></figure>
+
+<p>为了成为版本号，需要将前置的<code>0</code>去掉，这里用<code>sed</code>来做一个正则表达式替换：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo $(date +&quot;%m&quot;) | sed &quot;s/^0*//&quot;</span><br><span class="line">&quot; 5</span><br></pre></td></tr></table></figure>
+
+<p>最后是获取日期是第几天，当然也需要把前置<code>0</code>去掉：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo $(date +&quot;%d&quot;) | sed &quot;s/^0*//&quot;</span><br><span class="line">&quot; 2</span><br></pre></td></tr></table></figure>
+
+<p>组合起来，需要将<code>&quot;</code>转换成<code>\&quot;</code>，最后的结果就是<code>22.5.2</code>：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;version:date&quot;</span><span class="punctuation">:</span> <span class="string">&quot;npm version $(cut -c 3-4 &lt;&lt;&lt; $(date +\&quot;%Y\&quot;)).$(echo $(date +\&quot;%m\&quot;) | sed \&quot;s/^0*//\&quot;).$(echo $(date +\&quot;%d\&quot;) | sed \&quot;s/^0*//\&quot;)&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.theunixschool.com/2013/03/how-to-remove-leading-zeros-in-string.html">https://www.theunixschool.com/2013/03/how-to-remove-leading-zeros-in-string.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://phoenixnap.com/kb/linux-date-command">https://phoenixnap.com/kb/linux-date-command</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mingda.dev/2022/06/05/generate-semantic-version-with-date/" data-id="cl41hkq3600069joyeigccgic" data-title="根据当前日期的年月日生成语义化的版本号" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2022/06/05/setup-neovim-for-json-development/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">在Neovim中基于LSP配置Json开发环境</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/06/05/generate-semantic-version-with-date/">根据当前日期的年月日生成语义化的版本号</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/05/setup-neovim-for-json-development/">在Neovim中基于LSP配置Json开发环境</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/05/setup-neovim-for-writing-markdown-documents/">在Neovim中配置markdown书写环境</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/05/changing-root-dir-with-lua-language-server-in-neovim/">如何修改Lua Language Server运行时的根目录</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/04/setup-neovim-for-lua-development/">在Neovim中配置Lua开发环境</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 Cui Mingda<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

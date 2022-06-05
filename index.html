@@ -71,6 +71,67 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-generate-semantic-version-with-date" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/06/05/generate-semantic-version-with-date/" class="article-date">
+  <time class="dt-published" datetime="2022-06-05T15:28:16.000Z" itemprop="datePublished">2022-06-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/06/05/generate-semantic-version-with-date/">根据当前日期的年月日生成语义化的版本号</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>如果今天是2022年5月2日，那么希望生成<code>22.5.2</code>这种版本号，并且包装成一个<code>package.json</code>中的<code>script</code>命令。</p>
+<p>首先要生成日期的年份：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo $(date +&quot;%Y&quot;)</span><br><span class="line">&quot; 2022</span><br></pre></td></tr></table></figure>
+
+<p>为了截取日期年份字符串的后两位，我们用到<code>cut</code>命令，第一个字符的序号是<code>1</code>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo $(cut -c 3-4 &lt;&lt;&lt; $(date +&quot;%Y&quot;))</span><br><span class="line">&quot; 22</span><br></pre></td></tr></table></figure>
+
+<p>然后是获取当前日期的月份</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo $(date +&quot;%m&quot;)</span><br><span class="line">&quot; 05</span><br></pre></td></tr></table></figure>
+
+<p>为了成为版本号，需要将前置的<code>0</code>去掉，这里用<code>sed</code>来做一个正则表达式替换：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo $(date +&quot;%m&quot;) | sed &quot;s/^0*//&quot;</span><br><span class="line">&quot; 5</span><br></pre></td></tr></table></figure>
+
+<p>最后是获取日期是第几天，当然也需要把前置<code>0</code>去掉：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo $(date +&quot;%d&quot;) | sed &quot;s/^0*//&quot;</span><br><span class="line">&quot; 2</span><br></pre></td></tr></table></figure>
+
+<p>组合起来，需要将<code>&quot;</code>转换成<code>\&quot;</code>，最后的结果就是<code>22.5.2</code>：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;version:date&quot;</span><span class="punctuation">:</span> <span class="string">&quot;npm version $(cut -c 3-4 &lt;&lt;&lt; $(date +\&quot;%Y\&quot;)).$(echo $(date +\&quot;%m\&quot;) | sed \&quot;s/^0*//\&quot;).$(echo $(date +\&quot;%d\&quot;) | sed \&quot;s/^0*//\&quot;)&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.theunixschool.com/2013/03/how-to-remove-leading-zeros-in-string.html">https://www.theunixschool.com/2013/03/how-to-remove-leading-zeros-in-string.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://phoenixnap.com/kb/linux-date-command">https://phoenixnap.com/kb/linux-date-command</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mingda.dev/2022/06/05/generate-semantic-version-with-date/" data-id="cl41hkq3600069joyeigccgic" data-title="根据当前日期的年月日生成语义化的版本号" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-setup-neovim-for-json-development" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/06/05/setup-neovim-for-json-development/" class="article-date">
@@ -108,7 +169,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/05/setup-neovim-for-json-development/" data-id="cl41gf961000h9gn951kabb2n" data-title="在Neovim中基于LSP配置Json开发环境" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/05/setup-neovim-for-json-development/" data-id="cl41hkq3g000i9joyc9o5bvqx" data-title="在Neovim中基于LSP配置Json开发环境" class="article-share-link">分享</a>
       
       
       
@@ -169,7 +230,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/05/setup-neovim-for-writing-markdown-documents/" data-id="cl41gf963000j9gn90i5r03v7" data-title="在Neovim中配置markdown书写环境" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/05/setup-neovim-for-writing-markdown-documents/" data-id="cl41hkq3h000k9joy10fzdcy8" data-title="在Neovim中配置markdown书写环境" class="article-share-link">分享</a>
       
       
       
@@ -221,7 +282,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/05/changing-root-dir-with-lua-language-server-in-neovim/" data-id="cl41gf95c00009gn95dnl8ra2" data-title="如何修改Lua Language Server运行时的根目录" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/05/changing-root-dir-with-lua-language-server-in-neovim/" data-id="cl41hkq2v00009joy6f2v33mn" data-title="如何修改Lua Language Server运行时的根目录" class="article-share-link">分享</a>
       
       
       
@@ -274,7 +335,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/04/setup-neovim-for-lua-development/" data-id="cl41gf962000i9gn9hutt4xyp" data-title="在Neovim中配置Lua开发环境" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/setup-neovim-for-lua-development/" data-id="cl41hkq3h000j9joy4wrqhid6" data-title="在Neovim中配置Lua开发环境" class="article-share-link">分享</a>
       
       
       
@@ -318,7 +379,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/04/convert-boolean-to-string-with-lua/" data-id="cl41gf95m00059gn9cxiwfsl8" data-title="convert-boolean-to-string-with-lua" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/convert-boolean-to-string-with-lua/" data-id="cl41hkq3500059joy1qhqfwyi" data-title="convert-boolean-to-string-with-lua" class="article-share-link">分享</a>
       
       
       
@@ -365,7 +426,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/04/getting-config-path-with-lua-in-neovim/" data-id="cl41gf95n00069gn970s885w4" data-title="如何在Neovim中获取数据目录和配置目录" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/getting-config-path-with-lua-in-neovim/" data-id="cl41hkq3700079joygh2wb4xz" data-title="如何在Neovim中获取数据目录和配置目录" class="article-share-link">分享</a>
       
       
       
@@ -415,7 +476,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/04/managing-plugins-with-packer-in-neovim/" data-id="cl41gf95y000c9gn96c0f4axh" data-title="用packer.nvim来管理Neovim的插件" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/managing-plugins-with-packer-in-neovim/" data-id="cl41hkq3c000d9joyfbl58m8r" data-title="用packer.nvim来管理Neovim的插件" class="article-share-link">分享</a>
       
       
       
@@ -462,7 +523,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/04/how-to-catch-require-error-in-lua/" data-id="cl41gf95o00079gn94fib7g1z" data-title="如何在Lua中处理require依赖不存在的问题" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/how-to-catch-require-error-in-lua/" data-id="cl41hkq3700089joyb4bzgnud" data-title="如何在Lua中处理require依赖不存在的问题" class="article-share-link">分享</a>
       
       
       
@@ -506,60 +567,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/04/how-to-end-script-execution-in-lua/" data-id="cl41gf95o00089gn9csgz8227" data-title="如何终止Lua脚本的执行" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-check-if-file-or-directory-exists-with-lua" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/06/04/check-if-file-or-directory-exists-with-lua/" class="article-date">
-  <time class="dt-published" datetime="2022-06-04T12:05:39.000Z" itemprop="datePublished">2022-06-04</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/06/04/check-if-file-or-directory-exists-with-lua/">如何在Lua中检测文件或者目录是否存在</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>检查目录是否存在</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> is_directory_exists = <span class="function"><span class="keyword">function</span><span class="params">(dir)</span></span></span><br><span class="line">  <span class="keyword">return</span> vim.fn.empty(vim.fn.glob(dir)) == <span class="number">0</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-
-<p>比如我们可以用来检测<code>packer</code>是否已经安装，如果没有安装，就用<code>git clone</code>下载安装</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> install_path = fn.stdpath(<span class="string">&#x27;data&#x27;</span>) .. <span class="string">&#x27;/site/pack/packer/start/packer.nvim&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> is_directory_exists(install_path) <span class="keyword">then</span></span><br><span class="line">  <span class="comment">-- do something</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-
-<p>检查文件是否存在</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> file_exists = <span class="function"><span class="keyword">function</span><span class="params">(name)</span></span></span><br><span class="line">  <span class="keyword">local</span> file = <span class="built_in">io</span>.<span class="built_in">open</span>(name, <span class="string">&quot;r&quot;</span>)</span><br><span class="line">  <span class="keyword">if</span> file ~= <span class="literal">nil</span> <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">io</span>.<span class="built_in">close</span>(file)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-
-<p>比如可以用来判断<code>packer</code>是否已经编译，如果没有编译就执行同步进行编译：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> packer_compiled_path = fn.stdpath(<span class="string">&#x27;config&#x27;</span>) .. <span class="string">&#x27;/plugin/packer_compiled.lua&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> file_exists(packer_compiled_path) <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">require</span>(<span class="string">&#x27;packer&#x27;</span>).sync()</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/1340230/check-if-directory-exists-in-lua">https://stackoverflow.com/questions/1340230/check-if-directory-exists-in-lua</a></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/04/check-if-file-or-directory-exists-with-lua/" data-id="cl41gf95h00019gn9b2yk14bx" data-title="如何在Lua中检测文件或者目录是否存在" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/04/how-to-end-script-execution-in-lua/" data-id="cl41hkq3800099joy8brm7uhg" data-title="如何终止Lua脚本的执行" class="article-share-link">分享</a>
       
       
       
@@ -575,7 +583,7 @@
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -607,6 +615,10 @@
       <ul>
         
           <li>
+            <a href="/2022/06/05/generate-semantic-version-with-date/">根据当前日期的年月日生成语义化的版本号</a>
+          </li>
+        
+          <li>
             <a href="/2022/06/05/setup-neovim-for-json-development/">在Neovim中基于LSP配置Json开发环境</a>
           </li>
         
@@ -620,10 +632,6 @@
         
           <li>
             <a href="/2022/06/04/setup-neovim-for-lua-development/">在Neovim中配置Lua开发环境</a>
-          </li>
-        
-          <li>
-            <a href="/2022/06/04/convert-boolean-to-string-with-lua/">convert-boolean-to-string-with-lua</a>
           </li>
         
       </ul>
