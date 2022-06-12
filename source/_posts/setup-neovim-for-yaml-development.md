@@ -1,6 +1,6 @@
 ---
 
-title: setup-neovim-for-yaml-development
+title: 在Neovim中配置YAML开发环境
 date: 2022-06-06 00:23:44
 
 ---
