@@ -1,8 +1,8 @@
 ---
 
 title: 如何显示package.json中包含了哪些用script定义的命令？
-date: 2022-06-16 08:03:37
--------------------------
+
+---
 
 当folk下来一个别人的项目，或者通过脚手架创建了一个空项目，第一反应就是查看`package.json`中有哪些命令可以运行，最笨的方案就是用`cat`或者任意编辑器查看。
 
@@ -31,3 +31,4 @@ This runs an arbitrary command from a package's "scripts" object.  If no "comman
 ## References
 
 * <https://stackoverflow.com/questions/59613870/how-to-list-all-the-commands-available-in-package-json>
+* <https://docs.npmjs.com/cli/v8/commands/npm-completion>
