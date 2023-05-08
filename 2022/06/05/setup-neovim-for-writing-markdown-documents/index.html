@@ -14,7 +14,7 @@
 <meta property="og:description" content="安装服务端1npm install -g remark-language-server  配置客户端增加一个配置文件lua&#x2F;servers&#x2F;remark_ls.lua 1require &amp;#x27;lspconfig&amp;#x27;.remark_ls.setup &amp;#123;&amp;#125;  在init.lua中增加引用 1require(&amp;#x27;servers.remark_ls&amp;#x27;)">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-06-05T04:00:11.000Z">
-<meta property="article:modified_time" content="2022-06-18T06:00:08.257Z">
+<meta property="article:modified_time" content="2023-05-08T14:16:23.886Z">
 <meta property="article:author" content="Cui Mingda">
 <meta name="twitter:card" content="summary">
   
@@ -36,7 +36,7 @@
 <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
 
   
-<meta name="generator" content="Hexo 6.2.0"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 <body>
   <div id="container">
@@ -107,7 +107,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install remark-preset-lint-markdown-style-guide</span><br></pre></td></tr></table></figure>
 
 <p>并且在根目录增加一个<code>.remarkrc.json</code></p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;plugins&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="string">&quot;remark-preset-lint-markdown-style-guide&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-list-item-indent&quot;</span><span class="punctuation">,</span> <span class="string">&quot;space&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-unordered-list-marker-style&quot;</span><span class="punctuation">,</span> <span class="string">&quot;*&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-heading-style&quot;</span><span class="punctuation">,</span> <span class="keyword">false</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-maximum-line-length&quot;</span><span class="punctuation">,</span> <span class="keyword">false</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-maximum-heading-length&quot;</span><span class="punctuation">,</span> <span class="keyword">false</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-fenced-code-marker&quot;</span><span class="punctuation">,</span> <span class="string">&quot;consistent&quot;</span><span class="punctuation">]</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;settings&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;rule&quot;</span><span class="punctuation">:</span> <span class="string">&quot;-&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;ruleRepetition&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;listItemIndent&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;bullet&quot;</span><span class="punctuation">:</span> <span class="string">&quot;*&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;plugins&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="string">&quot;remark-preset-lint-markdown-style-guide&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-list-item-indent&quot;</span><span class="punctuation">,</span> <span class="string">&quot;space&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-unordered-list-marker-style&quot;</span><span class="punctuation">,</span> <span class="string">&quot;*&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-heading-style&quot;</span><span class="punctuation">,</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-maximum-line-length&quot;</span><span class="punctuation">,</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-maximum-heading-length&quot;</span><span class="punctuation">,</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;remark-lint-fenced-code-marker&quot;</span><span class="punctuation">,</span> <span class="string">&quot;consistent&quot;</span><span class="punctuation">]</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;settings&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;rule&quot;</span><span class="punctuation">:</span> <span class="string">&quot;-&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;ruleRepetition&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;listItemIndent&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;bullet&quot;</span><span class="punctuation">:</span> <span class="string">&quot;*&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://github.com/remarkjs/remark/tree/main/packages/remark-stringify#api">https://github.com/remarkjs/remark/tree/main/packages/remark-stringify#api</a></li>
@@ -122,7 +122,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mingda.dev/2022/06/05/setup-neovim-for-writing-markdown-documents/" data-id="cl4jh0ln8000scand0bnr6qu6" data-title="在Neovim中配置markdown书写环境" class="article-share-link">分享</a>
+      <a data-url="https://mingda.dev/2022/06/05/setup-neovim-for-writing-markdown-documents/" data-id="clhexf0mm000ubin9b7e984oi" data-title="在Neovim中配置markdown书写环境" class="article-share-link">分享</a>
       
       
       
@@ -182,7 +182,7 @@
       <ul>
         
           <li>
-            <a href="/2022/06/05/setup-neovim-for-yaml-development/">在Neovim中配置YAML开发环境</a>
+            <a href="/2022/06/05/setup-neovim-for-yaml-development/">在Neovim中配置YAML开发环境1</a>
           </li>
         
           <li>
@@ -214,7 +214,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       
-      &copy; 2022 Cui Mingda<br>
+      &copy; 2023 Cui Mingda<br>
       Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
