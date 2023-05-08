@@ -1,8 +1,5 @@
----
-
-title: 在Neovim中配置YAML开发环境
+title: 在Neovim中配置YAML开发环境1
 date: 2022-06-06 00:23:44
-
 ---
 
 安装服务端
