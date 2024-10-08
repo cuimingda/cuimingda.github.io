@@ -2,32 +2,45 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  build:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-
     steps:
-    - name: 1. Checkout code
-      uses: actions/checkout@v2
+      - name: 1. Checkout code
+        uses: actions/checkout@v4
 
-    - name: 2. Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+      - name: 2. Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
-    - name: 3. Build Docker image
-      run: docker build -t nginx-static-website .
+      - name: 3. Build Docker image
+        run: docker build -t nginx-static-website .
 
-    - name: 4. Copy static files
-      run: |
-        container_id=$(docker create nginx-static-website)
-        docker cp $container_id:/usr/share/nginx/html ./output
-        docker rm $container_id
+      - name: 4. Copy static files
+        run: |
+          container_id=$(docker create nginx-static-website)
+          docker cp $container_id:/usr/share/nginx/html ./output
+          docker rm $container_id
 
-    - name: 5. Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./output
-        publish_branch: gh-pages
+      - name: 5. Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './output'
+
+      - name: 6. Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
