@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy honkit ebook to Pages
 
 on:
   push:
@@ -21,26 +21,18 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: 1. Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
-
-      - name: 2. Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: 3. Build Docker image
-        run: docker build -t nginx-static-website .
-
-      - name: 4. Copy static files
-        run: |
-          container_id=$(docker create nginx-static-website)
-          docker cp $container_id:/usr/share/nginx/html ./output
-          docker rm $container_id
-
-      - name: 5. Upload artifact
+      - name: Install dependencies
+        run: npm install
+      - name: Build project
+        run: npm run build
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './output'
-
-      - name: 6. Deploy to GitHub Pages
+          path: "./dist"
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
