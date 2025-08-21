@@ -1,0 +1,30 @@
+services:
+  web:
+    container_name: cuimingda-github-io-web
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    volumes:
+      - ./web:/app
+      - cuimingda-github-io-web-modules:/app/node_modules
+    command: [ "npm", "run", "dev", "--host" ]
+    networks:
+      - cuimingda-github-io-network
+  proxy:
+    image: nginx:stable
+    container_name: cuimingda-github-io-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./proxy/nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - cuimingda-github-io-network
+
+volumes:
+  cuimingda-github-io-web-modules:
+    name: cuimingda-github-io-web-modules
+
+networks:
+  cuimingda-github-io-network:
+    name: cuimingda-github-io-network
+    driver: bridge
